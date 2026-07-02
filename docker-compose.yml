@@ -1,0 +1,20 @@
+services:
+  nats:
+    image: nats:2
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: swarmnet
+      POSTGRES_PASSWORD: swarmnet
+      POSTGRES_DB: swarmnet
+    ports:
+      - "5432:5432"
+    volumes:
+      - swarmnet_postgres:/var/lib/postgresql/data
+
+volumes:
+  swarmnet_postgres:
