@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package swarmnet.v1;
+
+// Unique identifier for a drone.
+message DroneId {
+  string value = 1;
+}
+
+// Unique identifier for a mission.
+message MissionId {
+  string value = 1;
+}
+
+// Latitude/longitude/altitude position.
+message GeoPoint {
+  double latitude = 1;
+  double longitude = 2;
+  double altitude_meters = 3;
+}
+
+// 3D vector for velocity, acceleration, wind, etc.
+message Vector3 {
+  double x = 1;
+  double y = 2;
+  double z = 3;
+}
+
+// A mission waypoint.
+message Waypoint {
+  string id = 1;
+  GeoPoint position = 2;
+  double target_speed_mps = 3;
+  double loiter_seconds = 4;
+}
