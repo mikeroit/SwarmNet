@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package swarmnet.v1;
+
+import "swarmnet/v1/common.proto";
+
+message Route {
+
+  string id = 1;
+
+  repeated Waypoint waypoints = 2;
+
+  double estimated_distance_m = 3;
+
+  double estimated_duration_s = 4;
+}

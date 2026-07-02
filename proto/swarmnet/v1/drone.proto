@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package swarmnet.v1;
+
+import "swarmnet/v1/common.proto";
+
+enum DroneStatus {
+  DRONE_STATUS_UNSPECIFIED = 0;
+  DRONE_STATUS_IDLE = 1;
+  DRONE_STATUS_ENROUTE = 2;
+  DRONE_STATUS_LOITERING = 3;
+  DRONE_STATUS_RETURNING = 4;
+  DRONE_STATUS_LANDED = 5;
+  DRONE_STATUS_EMERGENCY = 6;
+}
+
+message DroneState {
+  DroneId id = 1;
+
+  GeoPoint position = 2;
+
+  Vector3 velocity = 3;
+
+  double heading_deg = 4;
+
+  double battery_percent = 5;
+
+  DroneStatus status = 6;
+
+  string current_route_id = 7;
+
+  string current_mission_id = 8;
+}

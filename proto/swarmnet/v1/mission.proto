@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package swarmnet.v1;
+
+import "swarmnet/v1/common.proto";
+
+enum MissionStatus {
+  MISSION_STATUS_UNSPECIFIED = 0;
+  MISSION_STATUS_PLANNED = 1;
+  MISSION_STATUS_ACTIVE = 2;
+  MISSION_STATUS_COMPLETED = 3;
+  MISSION_STATUS_ABORTED = 4;
+}
+
+message Mission {
+
+  MissionId id = 1;
+
+  string name = 2;
+
+  repeated Waypoint waypoints = 3;
+
+  MissionStatus status = 4;
+}
