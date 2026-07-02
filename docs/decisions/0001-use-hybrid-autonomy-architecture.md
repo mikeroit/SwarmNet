@@ -1,8 +1,8 @@
 # ADR 0001: Use Hybrid Autonomy Architecture
 
-## Status
-
-Accepted
+**Status:** Accepted
+**Date:** 2026-07-02
+**Authors:** Michael Roitman
 
 ## Context
 
