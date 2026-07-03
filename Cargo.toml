@@ -1,6 +1,5 @@
 [workspace]
 resolver = "2"
 members = [
-  "services/*",
-  "packages/*"
+  "packages/swarmnet-proto"
 ]
