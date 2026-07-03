@@ -286,6 +286,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "simulation"
+version = "0.1.0"
+
+[[package]]
 name = "swarmnet-proto"
 version = "0.1.0"
 dependencies = [
