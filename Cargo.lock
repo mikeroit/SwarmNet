@@ -290,6 +290,13 @@ name = "simulation"
 version = "0.1.0"
 
 [[package]]
+name = "simulation-runtime"
+version = "0.1.0"
+dependencies = [
+ "simulation",
+]
+
+[[package]]
 name = "swarmnet-proto"
 version = "0.1.0"
 dependencies = [

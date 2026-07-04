@@ -3,5 +3,5 @@ resolver = "2"
 members = [
   "packages/simulation",
   "packages/swarmnet-proto",
-  "packages/simulation",
+  "services/simulation-runtime",
 ]
