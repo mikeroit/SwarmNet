@@ -17,11 +17,15 @@ fn main() {
     while runtime.state() == simulation::SimulationState::Running {
         runtime.tick();
 
-        println!(
-            "Tick {:03}  Sim Time: {:?}",
+        for drone in runtime.world().drones() {
+            println!(
+            "Tick {:03} | Drone {} | Position: ({:.2}, {:.2})",
             runtime.clock().tick(),
-            runtime.clock().elapsed_time(),
-        );
+            drone.id,
+            drone.position.x,
+            drone.position.y,
+            );
+        }
     }
 
     println!("Simulation completed.");

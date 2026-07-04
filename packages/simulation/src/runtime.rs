@@ -1,11 +1,11 @@
 use std::time::Duration;
-
-use crate::{SimulationClock, SimulationState};
+use crate::{SimulationClock, SimulationState, SimulationWorld};
 
 #[derive(Debug)]
 pub struct SimulationRuntime {
     clock: SimulationClock,
     state: SimulationState,
+    world: SimulationWorld,
     max_ticks: u64,
 }
 
@@ -14,16 +14,21 @@ impl SimulationRuntime {
         Self {
             clock: SimulationClock::new(tick_duration),
             state: SimulationState::Uninitialized,
+            world: SimulationWorld::with_default_drone(),
             max_ticks,
         }
+    }
+
+    pub fn clock(&self) -> &SimulationClock {
+        &self.clock
     }
 
     pub fn state(&self) -> SimulationState {
         self.state
     }
 
-    pub fn clock(&self) -> &SimulationClock {
-        &self.clock
+    pub fn world(&self) -> &SimulationWorld {
+        &self.world
     }
 
     pub fn initialize(&mut self) {
@@ -45,6 +50,7 @@ impl SimulationRuntime {
         }
 
         self.clock.advance();
+        self.world.update(self.clock.tick_duration());
 
         if self.clock.tick() >= self.max_ticks {
             self.state = SimulationState::Completed;
