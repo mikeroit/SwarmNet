@@ -1,10 +1,12 @@
-use crate::Vector2;
+use crate::math::Vector2;
+use crate::model::Route;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct SimDrone {
     pub id: String,
     pub position: Vector2,
     pub speed_mps: f64,
+    pub route: Option<Route>,
 }
 
 impl SimDrone {
@@ -13,10 +15,11 @@ impl SimDrone {
             id: id.into(),
             position,
             speed_mps,
+            route: None,
         }
     }
 
-    pub fn update(&mut self, delta_seconds: f64) {
-        self.position.x += self.speed_mps * delta_seconds;
+    pub fn assign_route(&mut self, route: Route) {
+        self.route = Some(route);
     }
 }
