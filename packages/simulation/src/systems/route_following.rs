@@ -9,11 +9,11 @@ impl RouteFollowingSystem {
         let delta_seconds = tick_duration.as_secs_f64();
 
         for drone in world.drones_mut() {
-            let Some(route) = drone.route.as_mut() else {
+            let Some(route_execution) = drone.route_execution.as_mut() else {
                 continue;
             };
 
-            let Some(target_waypoint) = route.current_waypoint() else {
+            let Some(target_waypoint) = route_execution.current_waypoint() else {
                 continue;
             };
 
@@ -23,7 +23,7 @@ impl RouteFollowingSystem {
 
             if distance_to_target <= max_travel_distance {
                 drone.position = target_position;
-                route.advance_waypoint();
+                route_execution.advance_waypoint();
             } else {
                 let direction = drone.position.direction_to(&target_position);
                 drone.position = drone.position.add_scaled(&direction, max_travel_distance);

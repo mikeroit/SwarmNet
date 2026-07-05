@@ -1,12 +1,12 @@
 use crate::math::Vector2;
-use crate::model::Route;
+use crate::model::RouteExecution;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct SimDrone {
     pub id: String,
     pub position: Vector2,
     pub speed_mps: f64,
-    pub route: Option<Route>,
+    pub route_execution: Option<RouteExecution>,
 }
 
 impl SimDrone {
@@ -15,11 +15,11 @@ impl SimDrone {
             id: id.into(),
             position,
             speed_mps,
-            route: None,
+            route_execution: None,
         }
     }
 
-    pub fn assign_route(&mut self, route: Route) {
-        self.route = Some(route);
+    pub fn assign_route_execution(&mut self, route_execution: RouteExecution) {
+        self.route_execution = Some(route_execution);
     }
 }

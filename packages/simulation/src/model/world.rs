@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use crate::model::{Route, SimDrone, Waypoint};
+use crate::model::{Route, RouteExecution, SimDrone, Waypoint};
 use crate::math::Vector2;
 use crate::systems::RouteFollowingSystem;
 
@@ -21,13 +21,17 @@ impl SimulationWorld {
             10.0,
         );
 
-        drone.assign_route(Route::new(
+        let route = Route::new(
             "route-001",
             vec![
                 Waypoint::new("wp-001", Vector2::new(10.0, 0.0)),
                 Waypoint::new("wp-002", Vector2::new(10.0, 10.0)),
                 Waypoint::new("wp-003", Vector2::new(20.0, 10.0)),
             ],
+        );
+
+        drone.assign_route_execution(RouteExecution::new(
+            route,
         ));
 
         Self {

@@ -19,7 +19,7 @@ fn main() {
 
         for drone in runtime.world().drones() {
             let route_status = drone
-                .route
+                .route_execution
                 .as_ref()
                 .map(|route| {
                     if route.completed {
