@@ -10,8 +10,8 @@ pub struct SimulationWorld {
 }
 
 impl SimulationWorld {
-    pub fn new() -> Self {
-        Self { drones: Vec::new() }
+    pub fn new(drones: Vec<SimDrone>) -> Self {
+        Self { drones }
     }
 
     pub fn with_default_drone() -> Self {
@@ -54,6 +54,6 @@ impl SimulationWorld {
 
 impl Default for SimulationWorld {
     fn default() -> Self {
-        Self::new()
+        Self::new(Vec::new())
     }
 }

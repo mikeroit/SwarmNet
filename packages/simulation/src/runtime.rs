@@ -1,5 +1,5 @@
 use std::time::Duration;
-use crate::{SimulationClock, SimulationState, SimulationWorld};
+use crate::{SimulationClock, SimulationState, SimpleScenario, SimulationWorld};
 
 #[derive(Debug)]
 pub struct SimulationRuntime {
@@ -14,7 +14,7 @@ impl SimulationRuntime {
         Self {
             clock: SimulationClock::new(tick_duration),
             state: SimulationState::Uninitialized,
-            world: SimulationWorld::with_default_drone(),
+            world: SimpleScenario::build(),
             max_ticks,
         }
     }
