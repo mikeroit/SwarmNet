@@ -1,5 +1,6 @@
 use crate::math::Vector2;
-use crate::model::{Route, RouteExecution, SimDrone, SimulationWorld, Waypoint};
+use crate::model::{Route, SimDrone, SimulationWorld, Waypoint};
+use crate::FlightPlan;
 
 pub struct SimpleScenario;
 
@@ -14,7 +15,7 @@ impl SimpleScenario {
             ],
         );
 
-        let route_execution = RouteExecution::new(route);
+        let flight_plan = FlightPlan::new("fp-001", "mid-001", route);
 
         let mut drone = SimDrone::new(
             "drone-001",
@@ -22,7 +23,7 @@ impl SimpleScenario {
             10.0,
         );
 
-        drone.assign_route_execution(route_execution);
+        drone.assign_flight_plan_execution(flight_plan);
 
         SimulationWorld::new(vec![drone])
     }

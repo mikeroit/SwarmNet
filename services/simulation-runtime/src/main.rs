@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use simulation::SimulationRuntime;
+use simulation::{SimulationRuntime};
 
 fn main() {
     let mut runtime = SimulationRuntime::new(
@@ -19,16 +19,18 @@ fn main() {
 
         for drone in runtime.world().drones() {
             let route_status = drone
-                .route_execution
+                .flight_plan_execution
                 .as_ref()
-                .map(|route| {
-                    if route.completed {
+                .map(|flight_plan_execution| {
+                    if flight_plan_execution.route_execution.completed {
                         "completed".to_string()
-                    } else {
-                        format!("target wp index {}", route.current_waypoint_index)
                     }
-                })
-                .unwrap_or_else(|| "no route".to_string());
+                    else {
+                        format!("target wp index {}", flight_plan_execution.route_execution.current_waypoint_index)
+                    }
+
+                }).expect(format!("expected to find flight plan execution for drone: {}", drone.id).as_str());
+
 
             println!(
                 "Tick {:03} | Drone {} | Position: ({:.2}, {:.2}) | Route: {}",
