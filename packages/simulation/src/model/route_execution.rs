@@ -17,12 +17,12 @@ impl RouteExecution {
         }
     }
 
-    pub fn current_waypoint(& self) -> Option<&Waypoint> {
-        if self.completed  {
+    pub fn current_waypoint(&self) -> Option<&Waypoint> {
+        if self.completed {
             return None;
         }
 
-        Some(self.route.waypoints.get(self.current_waypoint_index).unwrap())
+        self.route.waypoints.get(self.current_waypoint_index)
     }
 
     pub fn advance_waypoint(&mut self) {

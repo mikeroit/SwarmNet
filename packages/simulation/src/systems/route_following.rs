@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use crate::SimulationWorld;
+use crate::{ExecutionStatus, SimulationWorld};
 
 pub struct RouteFollowingSystem;
 
@@ -13,9 +13,14 @@ impl RouteFollowingSystem {
                 continue;
             };
 
-            let Some(target_waypoint) = flight_plan_execution.route_execution.current_waypoint() else {
+            let Some(target_waypoint) = flight_plan_execution.route_execution.current_waypoint()
+            else {
                 continue;
             };
+
+            if flight_plan_execution.status == ExecutionStatus::Pending {
+                flight_plan_execution.status = ExecutionStatus::Active;
+            }
 
             let target_position = target_waypoint.position;
             let distance_to_target = drone.position.distance_to(&target_position);
@@ -23,7 +28,12 @@ impl RouteFollowingSystem {
 
             if distance_to_target <= max_travel_distance {
                 drone.position = target_position;
+
                 flight_plan_execution.route_execution.advance_waypoint();
+
+                if flight_plan_execution.route_execution.completed {
+                    flight_plan_execution.status = ExecutionStatus::Completed;
+                }
             } else {
                 let direction = drone.position.direction_to(&target_position);
                 drone.position = drone.position.add_scaled(&direction, max_travel_distance);

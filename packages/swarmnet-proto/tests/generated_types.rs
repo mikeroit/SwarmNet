@@ -1,6 +1,4 @@
-use swarmnet_proto::swarmnet::v1::{
-    DroneId, GeoPoint, MissionId, Route, Waypoint,
-};
+use swarmnet_proto::swarmnet::v1::{DroneId, GeoPoint, MissionId, Route, Waypoint};
 
 #[test]
 fn can_construct_generated_types() {

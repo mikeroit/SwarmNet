@@ -1,5 +1,5 @@
+use crate::{SimpleScenario, SimulationClock, SimulationState, SimulationWorld};
 use std::time::Duration;
-use crate::{SimulationClock, SimulationState, SimpleScenario, SimulationWorld};
 
 #[derive(Debug)]
 pub struct SimulationRuntime {

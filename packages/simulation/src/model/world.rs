@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use crate::model::{SimDrone};
+use crate::model::SimDrone;
 use crate::systems::RouteFollowingSystem;
 
 #[derive(Debug, Clone, PartialEq)]

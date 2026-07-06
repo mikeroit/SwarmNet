@@ -17,10 +17,10 @@ pub struct FlightPlanExecution {
 }
 
 impl FlightPlanExecution {
-    pub fn new(flight_plan: FlightPlan) -> FlightPlanExecution {
+    pub fn new(flight_plan: FlightPlan) -> Self {
         let route = flight_plan.route.clone();
 
-        FlightPlanExecution {
+        Self {
             flight_plan,
             route_execution: RouteExecution::new(route),
             status: ExecutionStatus::Pending,
