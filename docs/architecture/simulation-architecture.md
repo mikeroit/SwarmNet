@@ -292,23 +292,9 @@ Future simulation capabilities may include:
 ---
 
 ## MVP Scope
+The current simulation executable supports:
 
-The first simulation executable will include:
-
-- one drone
-- one predefined route
-- one simulation clock
-- deterministic tick loop
-- route-following movement
-- telemetry printed to stdout
-- route completion detection
-
-The first simulation executable will not include:
-
-- NATS
-- PostgreSQL
-- dashboard
-- real-time networking
-- route replanning
-- hazard avoidance
 - multiple drones
+- independent flight plans
+- independent route execution state
+- deterministic waypoint following

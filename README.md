@@ -27,4 +27,12 @@ Priority order:
 
 Architecture evolves through small, testable iterations rather than large speculative implementations.
 
-Status: Early Development
+## Current Capabilities
+
+- Rust simulation runtime
+- Deterministic simulation clock
+- Multiple simulated drones
+- Strongly typed simulation IDs
+- Flight plan execution model
+- Route execution model
+- Waypoint-based route following

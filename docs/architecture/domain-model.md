@@ -88,6 +88,18 @@ Mission Planner
 Execution responsibility belongs to the Drone Agent Runtime.
 
 ---
+## FlightPlanExecution
+
+A FlightPlanExecution tracks one drone's execution of a FlightPlan.
+
+It owns:
+
+- execution status
+- route execution state
+- progress toward completion
+
+The FlightPlan itself remains a static assignment definition.
+---
 
 # Drone
 
@@ -141,6 +153,19 @@ Routes do not contain mission objectives.
 
 Route Planner
 
+---
+
+## RouteExecution
+
+A RouteExecution tracks one drone's progress through a Route.
+
+It owns:
+
+- current waypoint index
+- completion state
+- route execution progress
+
+The Route itself remains a static path definition.
 ---
 
 # Waypoint
@@ -305,6 +330,26 @@ Swarm
 Swarm Coordinator
 ```
 
+---
+## Definition vs Execution Models
+
+SwarmNet separates static definitions from runtime execution state.
+
+Definitions describe what should happen:
+
+- Mission
+- FlightPlan
+- Route
+- Waypoint
+
+Execution models describe what is happening now:
+
+- FlightPlanExecution
+- RouteExecution
+- Drone runtime state
+- SimulationClock
+
+This separation prevents mutable execution state from contaminating reusable mission definitions.
 ---
 
 # Guiding Principles
