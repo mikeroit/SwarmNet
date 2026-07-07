@@ -1,4 +1,4 @@
-use crate::{SimpleScenario, SimulationClock, SimulationState, SimulationWorld};
+use crate::{MultiDroneScenario, SimulationClock, SimulationState, SimulationWorld};
 use std::time::Duration;
 
 #[derive(Debug)]
@@ -14,7 +14,7 @@ impl SimulationRuntime {
         Self {
             clock: SimulationClock::new(tick_duration),
             state: SimulationState::Uninitialized,
-            world: SimpleScenario::build(),
+            world: MultiDroneScenario::build(),
             max_ticks,
         }
     }

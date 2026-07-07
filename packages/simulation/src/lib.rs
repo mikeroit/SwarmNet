@@ -13,6 +13,6 @@ pub use model::{ExecutionStatus, SimDrone, SimulationWorld, Waypoint};
 pub use model::{FlightPlan, FlightPlanExecution};
 pub use model::{Route, RouteExecution};
 pub use runtime::SimulationRuntime;
-pub use scenarios::SimpleScenario;
+pub use scenarios::{MultiDroneScenario, SimpleScenario};
 pub use state::SimulationState;
 pub use systems::RouteFollowingSystem;

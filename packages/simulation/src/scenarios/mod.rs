@@ -1,3 +1,3 @@
 pub mod simple;
 
-pub use simple::SimpleScenario;
+pub use simple::{MultiDroneScenario, SimpleScenario};
