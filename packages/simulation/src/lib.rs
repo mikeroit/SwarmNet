@@ -1,4 +1,5 @@
 pub mod clock;
+pub mod events;
 pub mod math;
 pub mod model;
 pub mod runtime;
@@ -7,6 +8,7 @@ pub mod state;
 pub mod systems;
 
 pub use clock::SimulationClock;
+pub use events::{EventQueue, SimulationEvent};
 pub use math::Vector2;
 pub use model::{DroneId, FlightPlanId, MissionId, RouteId, WaypointId};
 pub use model::{ExecutionStatus, SimDrone, SimulationWorld, Waypoint};
