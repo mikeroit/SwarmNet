@@ -48,7 +48,7 @@ impl std::fmt::Display for SimulationEvent {
             } => {
                 write!(
                     f,
-                    "{} completed Flight PLan {}",
+                    "{} completed Flight Plan {}",
                     drone_id.display_name(),
                     flight_plan_id
                 )

@@ -15,7 +15,7 @@ impl EventQueue {
     }
 
     pub fn events(&self) -> &[SimulationEvent] {
-        &self.events.as_slice()
+        self.events.as_slice()
     }
 
     pub fn drain(&mut self) -> Vec<SimulationEvent> {

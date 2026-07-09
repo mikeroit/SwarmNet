@@ -26,7 +26,7 @@ pub enum HazardState {
 #[derive(Debug, Clone, PartialEq)]
 pub struct Hazard {
     pub id: HazardId,
-    pub position: Circle,
+    pub footprint: Circle,
     pub hazard_type: HazardType,
     pub severity: HazardSeverity,
     pub state: HazardState,
@@ -35,14 +35,14 @@ pub struct Hazard {
 impl Hazard {
     pub fn new(
         id: HazardId,
-        position: Circle,
+        footprint: Circle,
         hazard_type: HazardType,
         severity: HazardSeverity,
         state: HazardState,
     ) -> Self {
         Self {
             id,
-            position,
+            footprint,
             hazard_type,
             severity,
             state,

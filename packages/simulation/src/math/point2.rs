@@ -1,3 +1,5 @@
+use crate::math::Vector2;
+
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Point2 {
     pub x: f64,
@@ -15,19 +17,24 @@ impl Point2 {
         (dx * dx + dy * dy).sqrt()
     }
 
-    pub fn direction_to(&self, other: &Self) -> Self {
+    pub fn direction_to(&self, other: &Self) -> Vector2 {
         let dx = other.x - self.x;
         let dy = other.y - self.y;
         let distance = self.distance_to(other);
 
         if distance == 0.0 {
-            return Self::new(0.0, 0.0);
+            return Vector2::new(0.0, 0.0);
         }
 
-        Self::new(dx / distance, dy / distance)
+        Vector2::new(dx / distance, dy / distance)
     }
 
-    pub fn add_scaled(&self, direction: &Self, scale: f64) -> Self {
+    pub fn translate(&self, vector: Vector2) -> Self {
+        Self::new(self.x + vector.x, self.y + vector.y)
+    }
+
+    pub fn add_scaled(&self, direction: &Vector2, scale: f64) -> Self {
         Self::new(self.x + direction.x * scale, self.y + direction.y * scale)
     }
+
 }
