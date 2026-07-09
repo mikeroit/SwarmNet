@@ -34,9 +34,11 @@ impl RouteFollowingSystem {
             let max_travel_distance = drone.speed_mps * delta_seconds;
 
             if distance_to_target <= max_travel_distance {
-                events.push(SimulationEvent::WaypointReached { drone_id: drone_id.clone(),
+                events.push(SimulationEvent::WaypointReached {
+                    drone_id: drone_id.clone(),
                     route_id: route_id.clone(),
-                    waypoint_id: waypoint_id.clone() });
+                    waypoint_id: waypoint_id.clone(),
+                });
 
                 drone.position = target_position;
 
@@ -45,12 +47,12 @@ impl RouteFollowingSystem {
                 if flight_plan_execution.route_execution.completed {
                     events.push(SimulationEvent::RouteCompleted {
                         drone_id: drone_id.clone(),
-                        route_id: route_id.clone()
+                        route_id: route_id.clone(),
                     });
 
                     events.push(SimulationEvent::FlightPlanCompleted {
                         drone_id: drone_id.clone(),
-                        flight_plan_id: flight_plan_id.clone()
+                        flight_plan_id: flight_plan_id.clone(),
                     });
 
                     flight_plan_execution.status = ExecutionStatus::Completed;
@@ -61,7 +63,7 @@ impl RouteFollowingSystem {
             }
         }
 
-        for event in events {
+        for event in events.drain(..) {
             world.event_queue_mut().push(event);
         }
     }

@@ -196,7 +196,11 @@ Route Planner
 
 A Hazard is any environmental condition that may require autonomous behavior to change.
 
+Hazards are immutable descriptions of the environment.
+
 Hazards may originate from onboard sensors, external systems, simulation, or operator input.
+
+Detection, reporting, sharing, and avoidance are modeled separately.
 
 ## Types
 

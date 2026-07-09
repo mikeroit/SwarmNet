@@ -1,5 +1,6 @@
 use crate::FlightPlan;
 use crate::math::Vector2;
+use crate::model::{Hazard, HazardSeverity, HazardState, HazardType};
 use crate::model::{Route, SimDrone, SimulationWorld, Waypoint};
 
 pub struct SimpleScenario;
@@ -22,7 +23,7 @@ impl SimpleScenario {
 
         drone.assign_flight_plan(flight_plan);
 
-        SimulationWorld::new(vec![drone])
+        SimulationWorld::new(vec![drone], vec![])
     }
 }
 
@@ -67,6 +68,27 @@ impl MultiDroneScenario {
         drone_b.assign_flight_plan(flight_plan_b);
         drone_c.assign_flight_plan(flight_plan_c);
 
-        SimulationWorld::new(vec![drone_a, drone_b, drone_c])
+        let drones = vec![drone_a, drone_b, drone_c];
+
+        let hazard_a = Hazard::new(
+            "hazard-001".into(),
+            Vector2::new(2.0, 5.0),
+            1.0,
+            HazardType::StaticObstacle,
+            HazardSeverity::Low,
+            HazardState::Active,
+        );
+        let hazard_b = Hazard::new(
+            "hazard-002".into(),
+            Vector2::new(2.0, 17.0),
+            2.0,
+            HazardType::NoFlyZone,
+            HazardSeverity::High,
+            HazardState::Cleared,
+        );
+
+        let hazards = vec![hazard_a, hazard_b];
+
+        SimulationWorld::new(drones, hazards)
     }
 }

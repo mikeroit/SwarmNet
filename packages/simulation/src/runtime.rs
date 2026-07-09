@@ -1,4 +1,6 @@
-use crate::{MultiDroneScenario, SimulationClock, SimulationState, SimulationWorld};
+use crate::{
+    ConsoleRenderer, MultiDroneScenario, SimulationClock, SimulationState, SimulationWorld,
+};
 use std::time::Duration;
 
 #[derive(Debug)]
@@ -55,6 +57,9 @@ impl SimulationRuntime {
         if self.clock.tick() >= self.max_ticks {
             self.state = SimulationState::Completed;
         }
+
+        let events = self.world.drain_events();
+        ConsoleRenderer::render(self.world(), &events, self.clock());
     }
 
     pub fn shutdown(&mut self) {

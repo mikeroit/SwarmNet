@@ -34,7 +34,20 @@ macro_rules! define_id {
 }
 
 define_id!(DroneId);
-define_id!(MissionId);
 define_id!(FlightPlanId);
+define_id!(HazardId);
+define_id!(MissionId);
 define_id!(RouteId);
 define_id!(WaypointId);
+
+impl DroneId {
+    pub fn display_name(&self) -> String {
+        let splits: Vec<&str> = self.0.as_str().split("-").collect();
+        if splits.len() == 2 {
+            let numerical = splits[1];
+            return format!("Drone {}", numerical);
+        }
+
+        self.0.clone()
+    }
+}
