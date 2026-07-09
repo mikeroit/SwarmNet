@@ -29,10 +29,11 @@ Architecture evolves through small, testable iterations rather than large specul
 
 ## Current Capabilities
 
-- Rust simulation runtime
-- Deterministic simulation clock
-- Multiple simulated drones
-- Strongly typed simulation IDs
-- Flight plan execution model
-- Route execution model
-- Waypoint-based route following
+- Fixed-timestep deterministic simulation
+- Multiple autonomous drones
+- Flight plan execution
+- Route execution
+- Waypoint following
+- Simulation event queue
+- Hazard modeling
+- Console rendering

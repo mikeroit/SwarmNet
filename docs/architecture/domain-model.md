@@ -74,7 +74,6 @@ Every drone participating in a mission receives its own Flight Plan.
 
 A Flight Plan specifies:
 
-- assigned drone
 - assigned route
 - mission objectives
 - operational constraints
@@ -136,7 +135,7 @@ A Route is a navigable path through space.
 
 Routes describe **where** a drone intends to travel.
 
-Routes may change during mission execution.
+A Route is an immutable path definition. Changes to the active route are represented by creating a new Route and updating the associated RouteExecution.
 
 ## Responsibilities
 
@@ -199,6 +198,8 @@ A Hazard is any environmental condition that may require autonomous behavior to 
 Hazards are immutable descriptions of the environment.
 
 Hazards may originate from onboard sensors, external systems, simulation, or operator input.
+
+A Hazard represents a fact about the environment. It does not track which drones have detected or reacted to it.
 
 Detection, reporting, sharing, and avoidance are modeled separately.
 
