@@ -1,16 +1,16 @@
-use crate::math::Vector2;
+use crate::math::Point2;
 use crate::model::{DroneId, FlightPlan, FlightPlanExecution};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct SimDrone {
     pub id: DroneId,
-    pub position: Vector2,
+    pub position: Point2,
     pub speed_mps: f64,
     pub flight_plan_execution: Option<FlightPlanExecution>,
 }
 
 impl SimDrone {
-    pub fn new(id: impl Into<DroneId>, position: Vector2, speed_mps: f64) -> Self {
+    pub fn new(id: impl Into<DroneId>, position: Point2, speed_mps: f64) -> Self {
         Self {
             id: id.into(),
             position,
