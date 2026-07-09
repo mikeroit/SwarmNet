@@ -10,7 +10,7 @@ pub mod systems;
 
 pub use clock::SimulationClock;
 pub use events::{EventQueue, SimulationEvent};
-pub use math::{Point2, Vector2};
+pub use math::{Circle, Point2, Vector2};
 pub use model::{DroneId, FlightPlanId, HazardId, MissionId, RouteId, WaypointId};
 pub use model::{ExecutionStatus, SimDrone, SimulationWorld, Waypoint};
 pub use model::{FlightPlan, FlightPlanExecution};

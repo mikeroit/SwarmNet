@@ -1,4 +1,4 @@
-use crate::math::Point2;
+use crate::math::{Circle};
 use crate::model::HazardId;
 
 #[derive(Debug, Clone, PartialEq)]
@@ -26,8 +26,7 @@ pub enum HazardState {
 #[derive(Debug, Clone, PartialEq)]
 pub struct Hazard {
     pub id: HazardId,
-    pub position: Point2,
-    pub radius: f64,
+    pub position: Circle,
     pub hazard_type: HazardType,
     pub severity: HazardSeverity,
     pub state: HazardState,
@@ -36,8 +35,7 @@ pub struct Hazard {
 impl Hazard {
     pub fn new(
         id: HazardId,
-        position: Point2,
-        radius: f64,
+        position: Circle,
         hazard_type: HazardType,
         severity: HazardSeverity,
         state: HazardState,
@@ -45,7 +43,6 @@ impl Hazard {
         Self {
             id,
             position,
-            radius,
             hazard_type,
             severity,
             state,

@@ -1,5 +1,5 @@
 use crate::FlightPlan;
-use crate::math::Point2;
+use crate::math::{Circle, Point2};
 use crate::model::{Hazard, HazardSeverity, HazardState, HazardType};
 use crate::model::{Route, SimDrone, SimulationWorld, Waypoint};
 
@@ -72,16 +72,14 @@ impl MultiDroneScenario {
 
         let hazard_a = Hazard::new(
             "hazard-001".into(),
-            Point2::new(2.0, 5.0),
-            1.0,
+            Circle::new(Point2::new(2.0, 5.0), 1.0),
             HazardType::StaticObstacle,
             HazardSeverity::Low,
             HazardState::Active,
         );
         let hazard_b = Hazard::new(
             "hazard-002".into(),
-            Point2::new(2.0, 17.0),
-            2.0,
+            Circle::new(Point2::new(2.0, 17.0), 2.0),
             HazardType::NoFlyZone,
             HazardSeverity::High,
             HazardState::Cleared,
