@@ -1,4 +1,4 @@
-use crate::{events::SimulationEvent, model::SimulationWorld};
+use crate::{events::SimulationEvent, model::SimulationWorld, math::Circle};
 
 pub struct HazardDetectionSystem;
 
@@ -13,11 +13,12 @@ impl HazardDetectionSystem {
                     continue;
                 }
 
-                let detection_distance = drone.sensor_range_meters + hazard.footprint.radius;
+                let sensor = Circle {
+                    center: drone.position,
+                    radius: drone.sensor_range_meters,
+                };
 
-                let distance = drone.position.distance_to(&hazard.footprint.center);
-
-                if distance <= detection_distance {
+                if sensor.intersects_circle(&hazard.footprint) {
                     drone.hazard_awareness.mark_detected(hazard.id.clone());
 
                     events.push(SimulationEvent::HazardDetected {
