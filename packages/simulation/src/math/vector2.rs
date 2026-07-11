@@ -9,25 +9,21 @@ impl Vector2 {
         Self { x, y }
     }
 
-    pub fn distance_to(&self, other: &Self) -> f64 {
-        let dx = other.x - self.x;
-        let dy = other.y - self.y;
-        (dx * dx + dy * dy).sqrt()
+    pub fn length(&self) -> f64 {
+        ((self.x * self.x) + (self.y + self.y)).sqrt()
     }
 
-    pub fn direction_to(&self, other: &Self) -> Self {
-        let dx = other.x - self.x;
-        let dy = other.y - self.y;
-        let distance = self.distance_to(other);
+    pub fn normalized(&self) -> Self {
+        let length = self.length();
 
-        if distance == 0.0 {
+        if length == 0.0 {
             return Self::new(0.0, 0.0);
         }
 
-        Self::new(dx / distance, dy / distance)
+        Self::new(self.x / length, self.y / length)
     }
 
-    pub fn add_scaled(&self, direction: &Self, scale: f64) -> Self {
-        Self::new(self.x + direction.x * scale, self.y + direction.y * scale)
+    pub fn scaled(&self, scale: f64) -> Self {
+        Self::new(self.x * scale, self.y * scale)
     }
 }

@@ -1,5 +1,5 @@
 use crate::{
-    ConsoleRenderer, MultiDroneScenario, SimulationClock, SimulationState, SimulationWorld,
+    SimulationClock, SimulationEvent, SimulationState, SimulationWorld,
 };
 use std::time::Duration;
 
@@ -12,11 +12,11 @@ pub struct SimulationRuntime {
 }
 
 impl SimulationRuntime {
-    pub fn new(tick_duration: Duration, max_ticks: u64) -> Self {
+    pub fn new(tick_duration: Duration, max_ticks: u64, world: SimulationWorld) -> Self {
         Self {
             clock: SimulationClock::new(tick_duration),
             state: SimulationState::Uninitialized,
-            world: MultiDroneScenario::build(),
+            world,
             max_ticks,
         }
     }
@@ -31,6 +31,10 @@ impl SimulationRuntime {
 
     pub fn world(&self) -> &SimulationWorld {
         &self.world
+    }
+
+    pub fn drain_events(&mut self) -> Vec<SimulationEvent> {
+        self.world.drain_events()
     }
 
     pub fn initialize(&mut self) {
@@ -57,9 +61,6 @@ impl SimulationRuntime {
         if self.clock.tick() >= self.max_ticks {
             self.state = SimulationState::Completed;
         }
-
-        let events = self.world.drain_events();
-        ConsoleRenderer::render(self.world(), &events, self.clock());
     }
 
     pub fn shutdown(&mut self) {
@@ -69,18 +70,20 @@ impl SimulationRuntime {
 
 #[cfg(test)]
 mod tests {
+    use crate::MultiDroneScenario;
+
     use super::*;
 
     #[test]
     fn runtime_starts_uninitialized() {
-        let runtime = SimulationRuntime::new(Duration::from_millis(100), 10);
+        let runtime = SimulationRuntime::new(Duration::from_millis(100), 10, MultiDroneScenario::build());
         assert_eq!(runtime.state(), SimulationState::Uninitialized);
         assert_eq!(runtime.clock().tick(), 0);
     }
 
     #[test]
     fn runtime_initializes_to_ready() {
-        let mut runtime = SimulationRuntime::new(Duration::from_millis(100), 10);
+        let mut runtime = SimulationRuntime::new(Duration::from_millis(100), 10, MultiDroneScenario::build());
         runtime.initialize();
 
         assert_eq!(runtime.state(), SimulationState::Ready);
@@ -88,7 +91,7 @@ mod tests {
 
     #[test]
     fn runtime_starts_running_after_ready() {
-        let mut runtime = SimulationRuntime::new(Duration::from_millis(100), 10);
+        let mut runtime = SimulationRuntime::new(Duration::from_millis(100), 10, MultiDroneScenario::build());
         runtime.initialize();
         runtime.start();
 
@@ -97,7 +100,7 @@ mod tests {
 
     #[test]
     fn runtime_completes_at_max_ticks() {
-        let mut runtime = SimulationRuntime::new(Duration::from_millis(100), 3);
+        let mut runtime = SimulationRuntime::new(Duration::from_millis(100), 3, MultiDroneScenario::build());
         runtime.initialize();
         runtime.start();
 
@@ -111,7 +114,7 @@ mod tests {
 
     #[test]
     fn tick_does_nothing_unless_running() {
-        let mut runtime = SimulationRuntime::new(Duration::from_millis(100), 3);
+        let mut runtime = SimulationRuntime::new(Duration::from_millis(100), 3, MultiDroneScenario::build());
         runtime.tick();
 
         assert_eq!(runtime.clock().tick(), 0);

@@ -36,5 +36,4 @@ impl Point2 {
     pub fn add_scaled(&self, direction: &Vector2, scale: f64) -> Self {
         Self::new(self.x + direction.x * scale, self.y + direction.y * scale)
     }
-
 }

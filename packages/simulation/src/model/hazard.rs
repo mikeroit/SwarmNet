@@ -1,4 +1,4 @@
-use crate::math::{Circle};
+use crate::math::Circle;
 use crate::model::HazardId;
 
 #[derive(Debug, Clone, PartialEq)]
