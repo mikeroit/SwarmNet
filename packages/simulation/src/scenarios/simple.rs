@@ -19,7 +19,7 @@ impl SimpleScenario {
 
         let flight_plan = FlightPlan::new("fp-001", "mid-001", route);
 
-        let mut drone = SimDrone::new("drone-001", Point2::new(0.0, 0.0), 10.0);
+        let mut drone = SimDrone::new("drone-001", Point2::new(0.0, 0.0), 10.0, 5.0);
 
         drone.assign_flight_plan(flight_plan);
 
@@ -60,9 +60,9 @@ impl MultiDroneScenario {
         let flight_plan_b = FlightPlan::new("fp-002", "mission-002", route_b);
         let flight_plan_c = FlightPlan::new("fp-003", "mission-003", route_c);
 
-        let mut drone_a = SimDrone::new("drone-001", Point2::new(0.0, 0.0), 10.0);
-        let mut drone_b = SimDrone::new("drone-002", Point2::new(5.0, 5.0), 10.0);
-        let mut drone_c = SimDrone::new("drone-003", Point2::new(1.0, 2.0), 15.0);
+        let mut drone_a = SimDrone::new("drone-001", Point2::new(0.0, 0.0), 10.0, 5.0);
+        let mut drone_b = SimDrone::new("drone-002", Point2::new(5.0, 5.0), 10.0, 5.0);
+        let mut drone_c = SimDrone::new("drone-003", Point2::new(1.0, 2.0), 15.0, 5.0);
 
         drone_a.assign_flight_plan(flight_plan_a);
         drone_b.assign_flight_plan(flight_plan_b);
@@ -72,20 +72,13 @@ impl MultiDroneScenario {
 
         let hazard_a = Hazard::new(
             "hazard-001".into(),
-            Circle::new(Point2::new(2.0, 5.0), 1.0),
+            Circle::new(Point2::new(10.0, 8.0), 1.0),
             HazardType::StaticObstacle,
             HazardSeverity::Low,
             HazardState::Active,
         );
-        let hazard_b = Hazard::new(
-            "hazard-002".into(),
-            Circle::new(Point2::new(2.0, 17.0), 2.0),
-            HazardType::NoFlyZone,
-            HazardSeverity::High,
-            HazardState::Cleared,
-        );
 
-        let hazards = vec![hazard_a, hazard_b];
+        let hazards = vec![hazard_a];
 
         SimulationWorld::new(drones, hazards)
     }

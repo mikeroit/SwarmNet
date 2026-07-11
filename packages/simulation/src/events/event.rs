@@ -1,4 +1,4 @@
-use crate::model::{DroneId, FlightPlanId, RouteId, WaypointId};
+use crate::model::{DroneId, FlightPlanId, HazardId, RouteId, WaypointId};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum SimulationEvent {
@@ -14,6 +14,10 @@ pub enum SimulationEvent {
     FlightPlanCompleted {
         drone_id: DroneId,
         flight_plan_id: FlightPlanId,
+    },
+    HazardDetected {
+        drone_id: DroneId,
+        hazard_id: HazardId,
     },
 }
 
@@ -51,6 +55,18 @@ impl std::fmt::Display for SimulationEvent {
                     "{} completed Flight Plan {}",
                     drone_id.display_name(),
                     flight_plan_id
+                )
+            }
+
+            SimulationEvent::HazardDetected {
+                drone_id,
+                hazard_id,
+            } => {
+                write!(
+                    f,
+                    "{} detected Hazard: {}",
+                    drone_id.display_name(),
+                    hazard_id
                 )
             }
         }
