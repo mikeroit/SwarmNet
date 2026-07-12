@@ -51,3 +51,39 @@ impl DroneId {
         self.0.clone()
     }
 }
+
+impl RouteId {
+    pub fn display_name(&self) -> String {
+        let splits: Vec<&str> = self.0.as_str().split("-").collect();
+        if splits.len() == 2 {
+            let numerical = splits[1];
+            return format!("Route {}", numerical);
+        }
+
+        self.0.clone()
+    }
+}
+
+impl HazardId {
+    pub fn display_name(&self) -> String {
+        let splits: Vec<&str> = self.0.as_str().split("-").collect();
+        if splits.len() == 2 {
+            let numerical = splits[1];
+            return format!("Hazard {}", numerical);
+        }
+
+        self.0.clone()
+    }
+}
+
+impl WaypointId {
+    pub fn display_name(&self) -> String {
+        let splits: Vec<&str> = self.0.as_str().split("-").collect();
+        if splits.len() == 2 {
+            let numerical = splits[1];
+            return format!("Waypoint {}", numerical);
+        }
+
+        self.0.clone()
+    }
+}
