@@ -19,6 +19,11 @@ pub enum SimulationEvent {
         drone_id: DroneId,
         hazard_id: HazardId,
     },
+    RouteBlocked {
+        drone_id: DroneId,
+        route_id: RouteId,
+        hazard_id: HazardId,
+    },
 }
 
 impl std::fmt::Display for SimulationEvent {
@@ -67,6 +72,19 @@ impl std::fmt::Display for SimulationEvent {
                     "{} detected Hazard: {}",
                     drone_id.display_name(),
                     hazard_id
+                )
+            }
+            SimulationEvent::RouteBlocked {
+                drone_id,
+                route_id,
+                hazard_id,
+            } => {
+                write!(
+                    f,
+                    "{} for {} blocked by {}",
+                    route_id.display_name(),
+                    drone_id.display_name(),
+                    hazard_id.display_name(),
                 )
             }
         }
