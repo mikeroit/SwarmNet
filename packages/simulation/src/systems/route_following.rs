@@ -59,7 +59,7 @@ impl RouteFollowingSystem {
                 }
             } else {
                 let direction = drone.position.direction_to(&target_position);
-                drone.position = drone.position.add_scaled(&direction, max_travel_distance);
+                drone.position = drone.position + (direction * max_travel_distance);
             }
         }
 

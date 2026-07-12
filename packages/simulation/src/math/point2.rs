@@ -1,3 +1,5 @@
+use std::ops::{Add, Sub};
+
 use crate::math::Vector2;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -28,12 +30,20 @@ impl Point2 {
 
         Vector2::new(dx / distance, dy / distance)
     }
+}
 
-    pub fn translate(&self, vector: Vector2) -> Self {
-        Self::new(self.x + vector.x, self.y + vector.y)
+impl Sub for Point2 {
+    type Output = Vector2;
+
+    fn sub(self, other: Self) -> Self::Output {
+        Vector2::new(self.x - other.x, self.y - other.y)
     }
+}
 
-    pub fn add_scaled(&self, direction: &Vector2, scale: f64) -> Self {
-        Self::new(self.x + direction.x * scale, self.y + direction.y * scale)
+impl Add<Vector2> for Point2 {
+    type Output = Point2;
+
+    fn add(self, v: Vector2) -> Self::Output {
+        Self::new(self.x + v.x, self.y + v.y)
     }
 }
