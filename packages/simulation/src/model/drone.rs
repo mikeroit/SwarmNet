@@ -1,5 +1,5 @@
 use crate::math::Point2;
-use crate::model::{DroneId, FlightPlan, FlightPlanExecution, HazardAwareness};
+use crate::model::{DroneId, FlightPlan, FlightPlanExecution, LocalHazardMap};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct SimDrone {
@@ -7,7 +7,7 @@ pub struct SimDrone {
     pub position: Point2,
     pub speed_mps: f64,
     pub sensor_range_meters: f64,
-    pub hazard_awareness: HazardAwareness,
+    pub hazard_awareness: LocalHazardMap,
     pub flight_plan_execution: Option<FlightPlanExecution>,
 }
 
@@ -23,7 +23,7 @@ impl SimDrone {
             position,
             speed_mps,
             sensor_range_meters,
-            hazard_awareness: HazardAwareness::new(),
+            hazard_awareness: LocalHazardMap::new(),
             flight_plan_execution: None,
         }
     }

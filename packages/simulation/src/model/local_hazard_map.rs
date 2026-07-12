@@ -3,11 +3,11 @@ use std::collections::HashSet;
 use crate::model::HazardId;
 
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
-pub struct HazardAwareness {
+pub struct LocalHazardMap {
     detected_hazard_ids: HashSet<HazardId>,
 }
 
-impl HazardAwareness {
+impl LocalHazardMap {
     pub fn new() -> Self {
         Self::default()
     }

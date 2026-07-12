@@ -14,7 +14,7 @@ pub use math::{Circle, Point2, Vector2, LineSegment};
 pub use model::{DroneId, FlightPlanId, HazardId, MissionId, RouteId, WaypointId};
 pub use model::{ExecutionStatus, SimDrone, SimulationWorld, Waypoint};
 pub use model::{FlightPlan, FlightPlanExecution};
-pub use model::{Hazard, HazardAwareness, HazardSeverity, HazardState, HazardType};
+pub use model::{Hazard, HazardSeverity, HazardState, HazardType, LocalHazardMap};
 pub use model::{Route, RouteExecution};
 pub use renderers::ConsoleRenderer;
 pub use runtime::SimulationRuntime;

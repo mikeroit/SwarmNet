@@ -1,4 +1,4 @@
-use crate::{events::SimulationEvent, model::SimulationWorld, math::Circle};
+use crate::{events::SimulationEvent, math::Circle, model::SimulationWorld};
 
 pub struct HazardDetectionSystem;
 
