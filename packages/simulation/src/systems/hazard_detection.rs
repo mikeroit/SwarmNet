@@ -18,10 +18,10 @@ impl HazardDetectionSystem {
 
                 if can_detect && drone.local_hazard_map.insert(hazard.clone()) {
                     events.push(SimulationEvent::HazardDetected {
-                    drone_id: drone.id.clone(),
-                    hazard_id: hazard.id.clone(),
-                });
-}
+                        drone_id: drone.id.clone(),
+                        hazard_id: hazard.id.clone(),
+                    });
+                }
             }
         }
 

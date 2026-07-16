@@ -7,9 +7,6 @@ pub struct LineSegment {
 
 impl LineSegment {
     pub fn new(start: Point2, end: Point2) -> Self {
-        LineSegment {
-            start,
-            end,
-        }
+        LineSegment { start, end }
     }
 }

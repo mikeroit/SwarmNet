@@ -1,10 +1,10 @@
+#[cfg(test)]
+use crate::model::{DroneId, RouteId};
 use crate::{
     events::SimulationEvent,
     math::LineSegment,
     model::{HazardId, HazardState, SimDrone, SimulationWorld, ValidationStatus},
 };
-#[cfg(test)]
-use crate::model::{DroneId, RouteId};
 
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct RouteValidationResult {
@@ -73,9 +73,7 @@ impl RouteValidationSystem {
 
         // LocalHazardMap currently uses a HashMap, whose iteration order is not
         // deterministic. Sorting keeps validation results stable across runs.
-        blocking_hazard_ids.sort_by(|left, right| {
-            left.as_str().cmp(right.as_str())
-        });
+        blocking_hazard_ids.sort_by(|left, right| left.as_str().cmp(right.as_str()));
 
         RouteValidationResult::new(blocking_hazard_ids)
     }
@@ -104,14 +102,10 @@ impl RouteValidationSystem {
         });
 
         // Validate every later segment in the remaining route.
-        segments.extend(
-            remaining_waypoints
-                .windows(2)
-                .map(|waypoints| LineSegment {
-                    start: waypoints[0].position,
-                    end: waypoints[1].position,
-                }),
-        );
+        segments.extend(remaining_waypoints.windows(2).map(|waypoints| LineSegment {
+            start: waypoints[0].position,
+            end: waypoints[1].position,
+        }));
 
         segments
     }
@@ -130,20 +124,19 @@ impl RouteValidationSystem {
 
             let next_status = if result.is_valid() {
                 ValidationStatus::Valid
-            }
-            else {
+            } else {
                 ValidationStatus::Blocked
             };
 
             flight_plan_execution.validation_status = next_status;
 
             if previous_status == ValidationStatus::Valid
-                && next_status == ValidationStatus::Blocked {
-
+                && next_status == ValidationStatus::Blocked
+            {
                 let route_id = flight_plan_execution.route_execution.route.id.clone();
 
                 for hazard_id in result.blocking_hazard_ids() {
-                    events.push( SimulationEvent::RouteBlocked {
+                    events.push(SimulationEvent::RouteBlocked {
                         drone_id: drone.id.clone(),
                         route_id: route_id.clone(),
                         hazard_id: hazard_id.clone(),
@@ -163,10 +156,7 @@ mod tests {
     use super::*;
     use crate::{
         math::{Circle, Point2},
-        model::{
-            FlightPlan, Hazard, HazardSeverity, HazardType, Route,
-            SimDrone, Waypoint,
-        },
+        model::{FlightPlan, Hazard, HazardSeverity, HazardType, Route, SimDrone, Waypoint},
     };
 
     fn drone_with_route() -> SimDrone {
@@ -178,21 +168,15 @@ mod tests {
             ],
         );
 
-        let flight_plan =
-            FlightPlan::new("fp-001", "mission-001", route);
+        let flight_plan = FlightPlan::new("fp-001", "mission-001", route);
 
-        let mut drone =
-            SimDrone::new("drone-001", Point2::new(0.0, 0.0), 10.0, 5.0);
+        let mut drone = SimDrone::new("drone-001", Point2::new(0.0, 0.0), 10.0, 5.0);
 
         drone.assign_flight_plan(flight_plan);
         drone
     }
 
-    fn active_hazard(
-        id: &str,
-        center: Point2,
-        radius: f64,
-    ) -> Hazard {
+    fn active_hazard(id: &str, center: Point2, radius: f64) -> Hazard {
         Hazard::new(
             id.into(),
             Circle::new(center, radius),
@@ -216,30 +200,23 @@ mod tests {
     fn known_hazard_intersecting_current_segment_blocks_route() {
         let mut drone = drone_with_route();
 
-        drone.local_hazard_map.insert(active_hazard(
-            "hazard-001",
-            Point2::new(5.0, 0.0),
-            1.0,
-        ));
+        drone
+            .local_hazard_map
+            .insert(active_hazard("hazard-001", Point2::new(5.0, 0.0), 1.0));
 
         let result = RouteValidationSystem::validate(&drone);
 
         assert!(!result.is_valid());
-        assert_eq!(
-            result.blocking_hazard_ids(),
-            &[HazardId::new("hazard-001")]
-        );
+        assert_eq!(result.blocking_hazard_ids(), &[HazardId::new("hazard-001")]);
     }
 
     #[test]
     fn known_hazard_away_from_route_does_not_block_route() {
         let mut drone = drone_with_route();
 
-        drone.local_hazard_map.insert(active_hazard(
-            "hazard-001",
-            Point2::new(5.0, 10.0),
-            1.0,
-        ));
+        drone
+            .local_hazard_map
+            .insert(active_hazard("hazard-001", Point2::new(5.0, 10.0), 1.0));
 
         let result = RouteValidationSystem::validate(&drone);
 
@@ -250,11 +227,7 @@ mod tests {
     fn cleared_hazard_does_not_block_route() {
         let mut drone = drone_with_route();
 
-        let mut hazard = active_hazard(
-            "hazard-001",
-            Point2::new(5.0, 0.0),
-            1.0,
-        );
+        let mut hazard = active_hazard("hazard-001", Point2::new(5.0, 0.0), 1.0);
         hazard.state = HazardState::Cleared;
 
         drone.local_hazard_map.insert(hazard);
@@ -274,11 +247,9 @@ mod tests {
             ],
         );
 
-        let flight_plan =
-            FlightPlan::new("flight-plan-001", "mission-001", route);
+        let flight_plan = FlightPlan::new("flight-plan-001", "mission-001", route);
 
-        let mut drone =
-            SimDrone::new("drone-001", Point2::new(0.0, 0.0), 10.0, 5.0);
+        let mut drone = SimDrone::new("drone-001", Point2::new(0.0, 0.0), 10.0, 5.0);
 
         drone.assign_flight_plan(flight_plan);
 
@@ -294,10 +265,7 @@ mod tests {
         // authoritative hazards stored in SimulationWorld.
         assert!(drone.local_hazard_map.insert(hazard.clone()));
 
-        let mut world = SimulationWorld::new(
-            vec![drone],
-            vec![hazard],
-        );
+        let mut world = SimulationWorld::new(vec![drone], vec![hazard]);
 
         RouteValidationSystem::step(&mut world);
 
@@ -307,10 +275,7 @@ mod tests {
             .as_ref()
             .expect("drone should have a flight plan execution");
 
-        assert_eq!(
-            execution.validation_status,
-            ValidationStatus::Blocked
-        );
+        assert_eq!(execution.validation_status, ValidationStatus::Blocked);
 
         let events = world.drain_events();
 

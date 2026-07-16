@@ -1,4 +1,4 @@
-use crate::{Waypoint, RouteId, LineSegment};
+use crate::{LineSegment, RouteId, Waypoint};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Route {
@@ -17,12 +17,7 @@ impl Route {
     pub fn segments(&self) -> Vec<LineSegment> {
         self.waypoints
             .windows(2)
-            .map(|pair| {
-                LineSegment::new(
-                    pair[0].position,
-                    pair[1].position,
-                )
-            })
+            .map(|pair| LineSegment::new(pair[0].position, pair[1].position))
             .collect()
     }
 }
