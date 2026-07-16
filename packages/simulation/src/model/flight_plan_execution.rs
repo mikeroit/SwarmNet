@@ -9,11 +9,18 @@ pub enum ExecutionStatus {
     Aborted,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ValidationStatus {
+    Valid,
+    Blocked,
+}
+
 #[derive(Debug, Clone, PartialEq)]
 pub struct FlightPlanExecution {
     pub flight_plan: FlightPlan,
     pub route_execution: RouteExecution,
-    pub status: ExecutionStatus,
+    pub execution_status: ExecutionStatus,
+    pub validation_status: ValidationStatus,
 }
 
 impl FlightPlanExecution {
@@ -23,7 +30,8 @@ impl FlightPlanExecution {
         Self {
             flight_plan,
             route_execution: RouteExecution::new(route),
-            status: ExecutionStatus::Pending,
+            execution_status: ExecutionStatus::Pending,
+            validation_status: ValidationStatus::Valid,
         }
     }
 }

@@ -20,8 +20,8 @@ impl RouteFollowingSystem {
                 continue;
             };
 
-            if flight_plan_execution.status == ExecutionStatus::Pending {
-                flight_plan_execution.status = ExecutionStatus::Active;
+            if flight_plan_execution.execution_status == ExecutionStatus::Pending {
+                flight_plan_execution.execution_status = ExecutionStatus::Active;
             }
 
             let drone_id = drone.id.clone();
@@ -55,7 +55,7 @@ impl RouteFollowingSystem {
                         flight_plan_id: flight_plan_id.clone(),
                     });
 
-                    flight_plan_execution.status = ExecutionStatus::Completed;
+                    flight_plan_execution.execution_status = ExecutionStatus::Completed;
                 }
             } else {
                 let direction = drone.position.direction_to(&target_position);

@@ -7,7 +7,7 @@ pub struct SimDrone {
     pub position: Point2,
     pub speed_mps: f64,
     pub sensor_range_meters: f64,
-    pub hazard_awareness: LocalHazardMap,
+    pub local_hazard_map: LocalHazardMap,
     pub flight_plan_execution: Option<FlightPlanExecution>,
 }
 
@@ -23,7 +23,7 @@ impl SimDrone {
             position,
             speed_mps,
             sensor_range_meters,
-            hazard_awareness: LocalHazardMap::new(),
+            local_hazard_map: LocalHazardMap::new(),
             flight_plan_execution: None,
         }
     }

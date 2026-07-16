@@ -72,7 +72,7 @@ impl MultiDroneScenario {
 
         let hazard_a = Hazard::new(
             "hazard-001".into(),
-            Circle::new(Point2::new(10.0, 8.0), 1.0),
+            Circle::new(Point2::new(2.0, 0.0), 1.0),
             HazardType::StaticObstacle,
             HazardSeverity::Low,
             HazardState::Active,

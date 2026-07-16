@@ -2,7 +2,7 @@ use std::time::Duration;
 
 use crate::events::{EventQueue, SimulationEvent};
 use crate::model::{Hazard, SimDrone};
-use crate::systems::{HazardDetectionSystem, RouteFollowingSystem};
+use crate::systems::{HazardDetectionSystem, RouteFollowingSystem, RouteValidationSystem};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct SimulationWorld {
@@ -47,6 +47,7 @@ impl SimulationWorld {
     pub fn update(&mut self, tick_duration: Duration) {
         RouteFollowingSystem::step(self, tick_duration);
         HazardDetectionSystem::step(self);
+        RouteValidationSystem::step(self);
     }
 }
 

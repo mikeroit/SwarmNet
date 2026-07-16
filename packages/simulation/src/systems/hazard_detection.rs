@@ -9,23 +9,19 @@ impl HazardDetectionSystem {
 
         for drone in world.drones_mut() {
             for hazard in &hazards {
-                if drone.hazard_awareness.has_detected(&hazard.id) {
-                    continue;
-                }
-
                 let sensor = Circle {
                     center: drone.position,
                     radius: drone.sensor_range_meters,
                 };
 
-                if sensor.intersects_circle(&hazard.footprint) {
-                    drone.hazard_awareness.mark_detected(hazard.id.clone());
+                let can_detect = sensor.intersects_circle(&hazard.footprint);
 
+                if can_detect && drone.local_hazard_map.insert(hazard.clone()) {
                     events.push(SimulationEvent::HazardDetected {
-                        drone_id: drone.id.clone(),
-                        hazard_id: hazard.id.clone(),
-                    });
-                }
+                    drone_id: drone.id.clone(),
+                    hazard_id: hazard.id.clone(),
+                });
+}
             }
         }
 

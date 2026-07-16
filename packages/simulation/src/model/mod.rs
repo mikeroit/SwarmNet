@@ -11,7 +11,7 @@ pub mod world;
 
 pub use drone::SimDrone;
 pub use flight_plan::FlightPlan;
-pub use flight_plan_execution::{ExecutionStatus, FlightPlanExecution};
+pub use flight_plan_execution::{ExecutionStatus, FlightPlanExecution, ValidationStatus};
 pub use hazard::{Hazard, HazardSeverity, HazardState, HazardType};
 pub use ids::{DroneId, FlightPlanId, HazardId, MissionId, RouteId, WaypointId};
 pub use local_hazard_map::LocalHazardMap;

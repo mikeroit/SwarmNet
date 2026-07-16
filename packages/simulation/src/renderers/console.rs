@@ -61,7 +61,7 @@ fn print_drone_state(drone: &SimDrone) {
             println!("  Current Waypoint: None");
         }
 
-        println!("  Status: {:?}", flight_plan_execution.status);
+        println!("  Status: {:?}", flight_plan_execution.execution_status);
     } else {
         println!("No Flight Plan Assigned");
     }
