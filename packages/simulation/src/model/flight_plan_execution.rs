@@ -1,4 +1,4 @@
-use crate::model::{FlightPlan, RouteExecution};
+use crate::model::{FlightPlan, Route, RouteExecution};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ExecutionStatus {
@@ -33,5 +33,10 @@ impl FlightPlanExecution {
             execution_status: ExecutionStatus::Pending,
             validation_status: ValidationStatus::Valid,
         }
+    }
+
+    pub fn replace_route(&mut self, new_route: Route) {
+        self.route_execution.route = new_route;
+        self.validation_status = ValidationStatus::Valid;
     }
 }
