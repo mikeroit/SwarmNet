@@ -24,6 +24,10 @@ pub enum SimulationEvent {
         route_id: RouteId,
         hazard_id: HazardId,
     },
+    RouteReplanned {
+        drone_id: DroneId,
+        route_id: RouteId,
+    },
 }
 
 impl std::fmt::Display for SimulationEvent {
@@ -85,6 +89,14 @@ impl std::fmt::Display for SimulationEvent {
                     route_id.display_name(),
                     drone_id.display_name(),
                     hazard_id.display_name(),
+                )
+            }
+            SimulationEvent::RouteReplanned { drone_id, route_id } => {
+                write!(
+                    f,
+                    "{} replanned {}",
+                    drone_id.display_name(),
+                    route_id.display_name(),
                 )
             }
         }

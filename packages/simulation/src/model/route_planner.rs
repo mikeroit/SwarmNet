@@ -1,10 +1,10 @@
 #[cfg(test)]
 use crate::math::{Circle, Point2};
 #[cfg(test)]
-use crate::model::{HazardType, HazardSeverity, HazardState};
+use crate::model::{HazardSeverity, HazardState, HazardType};
 
 use crate::math::{LineSegment, Vector2};
-use crate::model::{Hazard, Route, Waypoint};
+use crate::model::{Hazard, Route, RouteId, Waypoint};
 
 const SAFETY_MARGIN_METERS: f64 = 1.0;
 
@@ -12,11 +12,7 @@ const SAFETY_MARGIN_METERS: f64 = 1.0;
 pub struct RoutePlanner;
 
 impl RoutePlanner {
-    pub fn plan(
-        route_id: impl Into<crate::model::RouteId>,
-        waypoints: &[Waypoint],
-        hazards: &[Hazard],
-    ) -> Route {
+    pub fn plan(route_id: impl Into<RouteId>, waypoints: &[Waypoint], hazards: &[Hazard]) -> Route {
         if waypoints.is_empty() {
             return Route::new(route_id, Vec::new());
         }
