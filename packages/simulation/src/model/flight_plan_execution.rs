@@ -36,7 +36,7 @@ impl FlightPlanExecution {
     }
 
     pub fn replace_route(&mut self, new_route: Route) {
-        self.route_execution.route = new_route;
+        self.route_execution = RouteExecution::new(new_route);
         self.validation_status = ValidationStatus::Valid;
     }
 }

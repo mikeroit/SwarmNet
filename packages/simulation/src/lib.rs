@@ -20,4 +20,6 @@ pub use renderers::ConsoleRenderer;
 pub use runtime::SimulationRuntime;
 pub use scenarios::{MultiDroneScenario, SimpleScenario};
 pub use state::SimulationState;
-pub use systems::{HazardDetectionSystem, RouteFollowingSystem, RouteValidationSystem};
+pub use systems::{
+    HazardDetectionSystem, RouteFollowingSystem, RoutePlanningSystem, RouteValidationSystem,
+};

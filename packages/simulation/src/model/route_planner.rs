@@ -12,37 +12,29 @@ const SAFETY_MARGIN_METERS: f64 = 1.0;
 pub struct RoutePlanner;
 
 impl RoutePlanner {
-    pub fn plan(route_id: impl Into<RouteId>, waypoints: &[Waypoint], hazards: &[Hazard]) -> Route {
-        if waypoints.is_empty() {
-            return Route::new(route_id, Vec::new());
-        }
-
-        if waypoints.len() == 1 {
-            return Route::new(route_id, vec![waypoints[0].clone()]);
-        }
-
-        let mut planned_waypoints = Vec::new();
+    pub fn plan<'a>(
+        route_id: impl Into<RouteId>,
+        waypoints: &[Waypoint],
+        hazards: impl IntoIterator<Item = &'a Hazard>,
+    ) -> Route {
+        let hazards: Vec<&Hazard> = hazards.into_iter().collect();
+        let mut completed_route = Route::new(route_id, vec![]);
 
         for pair in waypoints.windows(2) {
-            let mut planned_segment = Self::plan_segment(&pair[0], &pair[1], hazards);
+            let segment = Self::plan_segment(&pair[0], &pair[1], &hazards);
 
-            // Every planned segment contains its start and end. The start of
-            // each later segment duplicates the previous segment's end.
-            if !planned_waypoints.is_empty() {
-                planned_segment.remove(0);
-            }
-
-            planned_waypoints.extend(planned_segment);
+            completed_route.extend(Route::new("", segment));
         }
 
-        Route::new(route_id, planned_waypoints)
+        completed_route
     }
 
-    pub fn plan_segment(start: &Waypoint, end: &Waypoint, hazards: &[Hazard]) -> Vec<Waypoint> {
+    pub fn plan_segment(start: &Waypoint, end: &Waypoint, hazards: &[&Hazard]) -> Vec<Waypoint> {
         let direct_segment = LineSegment::new(start.position, end.position);
 
         let mut blocking_hazards: Vec<&Hazard> = hazards
             .iter()
+            .copied()
             .filter(|hazard| hazard.footprint.intersects_line_segment(&direct_segment))
             .collect();
 
@@ -119,7 +111,7 @@ fn planned_segment_avoids_single_blocking_hazard() {
         HazardState::Active,
     );
 
-    let planned = RoutePlanner::plan_segment(&start, &end, &[hazard.clone()]);
+    let planned = RoutePlanner::plan_segment(&start, &end, &[&hazard]);
 
     assert!(planned.len() > 2);
 
@@ -129,6 +121,57 @@ fn planned_segment_avoids_single_blocking_hazard() {
         assert!(
             !hazard.footprint.intersects_line_segment(&segment),
             "planned segment still intersects the hazard"
+        );
+    }
+}
+
+#[test]
+fn replanned_route_from_current_drone_position_avoids_scenario_hazard() {
+    let current_position = Waypoint::new(
+        "replan-start-drone-001",
+        Point2::new(1.0, 0.0),
+    );
+
+    let destination = Waypoint::new(
+        "wp-002",
+        Point2::new(10.0, 10.0),
+    );
+
+    let hazard = Hazard::new(
+        "hazard-001".into(),
+        Circle::new(Point2::new(2.0, 0.0), 1.0),
+        HazardType::StaticObstacle,
+        HazardSeverity::Low,
+        HazardState::Active,
+    );
+
+    let planned_route = RoutePlanner::plan(
+        "route-001",
+        &[current_position, destination],
+        [&hazard],
+    );
+
+    assert!(
+        planned_route.waypoints().len() > 2,
+        "planner should insert detour waypoints for the blocking hazard"
+    );
+
+    for pair in planned_route.waypoints().windows(2) {
+        let segment = LineSegment::new(
+            pair[0].position,
+            pair[1].position,
+        );
+
+        assert!(
+            !hazard
+                .footprint
+                .intersects_line_segment(&segment),
+            concat!(
+                "replanned segment still intersects hazard: ",
+                "{:?} -> {:?}"
+            ),
+            pair[0].position,
+            pair[1].position,
         );
     }
 }
