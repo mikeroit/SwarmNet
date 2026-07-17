@@ -15,7 +15,7 @@ pub use model::{DroneId, FlightPlanId, HazardId, MissionId, RouteId, WaypointId}
 pub use model::{ExecutionStatus, SimDrone, SimulationWorld, Waypoint};
 pub use model::{FlightPlan, FlightPlanExecution};
 pub use model::{Hazard, HazardSeverity, HazardState, HazardType, LocalHazardMap};
-pub use model::{Route, RouteExecution};
+pub use model::{Route, RouteExecution, RoutePlanner};
 pub use renderers::ConsoleRenderer;
 pub use runtime::SimulationRuntime;
 pub use scenarios::{MultiDroneScenario, SimpleScenario};

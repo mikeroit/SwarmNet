@@ -47,3 +47,14 @@ impl Add<Vector2> for Point2 {
         Self::new(self.x + v.x, self.y + v.y)
     }
 }
+
+impl Sub<Vector2> for Point2 {
+    type Output = Point2;
+
+    fn sub(self, rhs: Vector2) -> Self::Output {
+        Point2::new(
+            self.x - rhs.x,
+            self.y - rhs.y,
+        )
+    }
+}

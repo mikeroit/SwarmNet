@@ -20,4 +20,20 @@ impl Route {
             .map(|pair| LineSegment::new(pair[0].position, pair[1].position))
             .collect()
     }
+
+    pub fn waypoints(&self) -> &[Waypoint] {
+        self.waypoints.as_slice()
+    }
+
+    pub fn push_waypoint(&mut self, waypoint: Waypoint) {
+        self.waypoints.push(waypoint);
+    }
+
+    pub fn extend(&mut self, mut other: Route) {
+        if self.waypoints.is_empty() && !other.waypoints.is_empty() {
+            other.waypoints.remove(0);
+        }
+
+        self.waypoints.extend(other.waypoints);
+    }
 }
