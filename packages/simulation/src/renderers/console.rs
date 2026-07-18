@@ -48,7 +48,7 @@ fn print_drone_state(drone: &SimDrone) {
     println!("  Position: ({}, {})", drone.position.x, drone.position.y);
 
     if let Some(flight_plan_execution) = drone.flight_plan_execution.as_ref() {
-        println!("  Flight Plan: {}", flight_plan_execution.flight_plan.id);
+        println!("  Flight Plan: {}", flight_plan_execution.flight_plan().id());
 
         println!(
             "  Route: {}",

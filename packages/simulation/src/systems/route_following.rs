@@ -31,7 +31,7 @@ impl RouteFollowingSystem {
                 .id()
                 .clone();
             let waypoint_id = target_waypoint.id.clone();
-            let flight_plan_id = flight_plan_execution.flight_plan.id.clone();
+            let flight_plan_id = flight_plan_execution.flight_plan().id().clone();
 
             let target_position = target_waypoint.position;
             let distance_to_target = drone.position.distance_to(&target_position);

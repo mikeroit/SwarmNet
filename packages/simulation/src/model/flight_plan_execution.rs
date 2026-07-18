@@ -17,7 +17,7 @@ pub enum ValidationStatus {
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct FlightPlanExecution {
-    pub flight_plan: FlightPlan,
+    flight_plan: FlightPlan,
     pub route_execution: RouteExecution,
     pub execution_status: ExecutionStatus,
     pub validation_status: ValidationStatus,
@@ -25,7 +25,7 @@ pub struct FlightPlanExecution {
 
 impl FlightPlanExecution {
     pub fn new(flight_plan: FlightPlan) -> Self {
-        let route = flight_plan.route.clone();
+        let route = flight_plan.route().clone();
 
         Self {
             flight_plan,
@@ -33,6 +33,10 @@ impl FlightPlanExecution {
             execution_status: ExecutionStatus::Pending,
             validation_status: ValidationStatus::Valid,
         }
+    }
+
+    pub fn flight_plan(&self) -> &FlightPlan {
+        &self.flight_plan
     }
 
     pub fn replace_route(&mut self, new_route: Route) {
