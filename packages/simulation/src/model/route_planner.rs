@@ -17,16 +17,20 @@ impl RoutePlanner {
         waypoints: &[Waypoint],
         hazards: &[&Hazard],
     ) -> Route {
-        let hazards: Vec<&Hazard> = hazards.to_vec();
-        let mut completed_route = Route::new(route_id, vec![]);
+        let route_id = route_id.into();
+        let mut planned_waypoints = Vec::new();
 
         for pair in waypoints.windows(2) {
-            let segment = Self::plan_segment(&pair[0], &pair[1], &hazards);
+            let mut segment = Self::plan_segment(&pair[0], &pair[1], &hazards);
 
-            completed_route.extend(Route::new("", segment));
+            if !planned_waypoints.is_empty() && !segment.is_empty() {
+                segment.remove(0);
+            }
+
+            planned_waypoints.extend(segment);
         }
 
-        completed_route
+        Route::new(route_id, planned_waypoints)
     }
 
     pub fn plan_segment(start: &Waypoint, end: &Waypoint, hazards: &[&Hazard]) -> Vec<Waypoint> {
@@ -174,4 +178,19 @@ fn replanned_route_from_current_drone_position_avoids_scenario_hazard() {
             pair[1].position,
         );
     }
+}
+
+#[test]
+fn plan_deduplicates_shared_segment_boundaries() {
+    let a = Waypoint::new("a", Point2::new(0.0, 0.0));
+    let b = Waypoint::new("b", Point2::new(1.0, 0.0));
+    let c = Waypoint::new("c", Point2::new(2.0, 0.0));
+
+    let route = RoutePlanner::plan(
+        "route-001",
+        &[a.clone(), b.clone(), c.clone()],
+        &[],
+    );
+
+    assert_eq!(route.waypoints(), &[a, b, c]);
 }

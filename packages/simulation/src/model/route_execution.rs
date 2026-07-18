@@ -22,11 +22,13 @@ impl RouteExecution {
             return None;
         }
 
-        self.route.waypoints.get(self.current_waypoint_index)
+        self.route
+            .waypoints()
+            .get(self.current_waypoint_index)
     }
 
     pub fn advance_waypoint(&mut self) {
-        if self.current_waypoint_index + 1 >= self.route.waypoints.len() {
+        if self.current_waypoint_index + 1 >= self.route.waypoints().len() {
             self.completed = true;
         } else {
             self.current_waypoint_index += 1;

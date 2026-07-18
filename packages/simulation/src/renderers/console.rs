@@ -52,7 +52,7 @@ fn print_drone_state(drone: &SimDrone) {
 
         println!(
             "  Route: {}",
-            flight_plan_execution.route_execution.route.id
+            flight_plan_execution.route_execution.route.id()
         );
 
         if let Some(waypoint) = flight_plan_execution.route_execution.current_waypoint() {

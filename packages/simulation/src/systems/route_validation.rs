@@ -87,11 +87,13 @@ impl RouteValidationSystem {
         let route = &route_execution.route;
         let current_index = route_execution.current_waypoint_index;
 
-        let Some(current_waypoint) = route.waypoints.get(current_index) else {
+        let waypoints = route.waypoints();
+
+        let Some(current_waypoint) = waypoints.get(current_index) else {
             return Vec::new();
         };
 
-        let remaining_waypoints = &route.waypoints[current_index..];
+        let remaining_waypoints = &waypoints[current_index..];
 
         let mut segments = Vec::with_capacity(remaining_waypoints.len());
 
@@ -133,7 +135,11 @@ impl RouteValidationSystem {
             if previous_status == ValidationStatus::Valid
                 && next_status == ValidationStatus::Blocked
             {
-                let route_id = flight_plan_execution.route_execution.route.id.clone();
+                let route_id = flight_plan_execution
+                    .route_execution
+                    .route
+                    .id()
+                    .clone();
 
                 for hazard_id in result.blocking_hazard_ids() {
                     events.push(SimulationEvent::RouteBlocked {
