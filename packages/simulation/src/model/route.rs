@@ -1,3 +1,5 @@
+#[cfg(test)]
+use crate::Point2;
 use crate::{LineSegment, RouteId, Waypoint};
 
 #[derive(Debug, Clone, PartialEq)]
@@ -30,10 +32,22 @@ impl Route {
     }
 
     pub fn extend(&mut self, mut other: Route) {
-        if self.waypoints.is_empty() && !other.waypoints.is_empty() {
+        if !self.waypoints.is_empty() && !other.waypoints.is_empty() {
             other.waypoints.remove(0);
         }
 
         self.waypoints.extend(other.waypoints);
     }
+}
+
+#[test]
+fn extend_preserves_first_waypoint_and_deduplicates_boundary() {
+    let a = Waypoint::new("a", Point2::new(0.0, 0.0));
+    let b = Waypoint::new("b", Point2::new(1.0, 0.0));
+    let c = Waypoint::new("c", Point2::new(2.0, 0.0));
+
+    let mut route = Route::new("route", vec![a.clone(), b.clone()]);
+    route.extend(Route::new("segment", vec![b.clone(), c.clone()]));
+
+    assert_eq!(route.waypoints(), &[a, b, c]);
 }

@@ -12,12 +12,12 @@ const SAFETY_MARGIN_METERS: f64 = 1.0;
 pub struct RoutePlanner;
 
 impl RoutePlanner {
-    pub fn plan<'a>(
+    pub fn plan(
         route_id: impl Into<RouteId>,
         waypoints: &[Waypoint],
-        hazards: impl IntoIterator<Item = &'a Hazard>,
+        hazards: &[&Hazard],
     ) -> Route {
-        let hazards: Vec<&Hazard> = hazards.into_iter().collect();
+        let hazards: Vec<&Hazard> = hazards.to_vec();
         let mut completed_route = Route::new(route_id, vec![]);
 
         for pair in waypoints.windows(2) {
@@ -129,7 +129,7 @@ fn planned_segment_avoids_single_blocking_hazard() {
 fn replanned_route_from_current_drone_position_avoids_scenario_hazard() {
     let current_position = Waypoint::new(
         "replan-start-drone-001",
-        Point2::new(1.0, 0.0),
+        Point2::new(0.8, 0.0),
     );
 
     let destination = Waypoint::new(
@@ -148,7 +148,7 @@ fn replanned_route_from_current_drone_position_avoids_scenario_hazard() {
     let planned_route = RoutePlanner::plan(
         "route-001",
         &[current_position, destination],
-        [&hazard],
+        &[&hazard],
     );
 
     assert!(
