@@ -1,0 +1,48 @@
+# =========================
+# Operating System
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+
+# =========================
+# Node
+# =========================
+node_modules/
+dist/
+build/
+coverage/
+*.log
+
+# =========================
+# Rust
+# =========================
+target/
+
+# Keep Cargo.lock for binaries/applications.
+# If we later publish Rust libraries, we can revisit this.
+# Cargo.lock
+
+# =========================
+# Environment Variables
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Docker
+# =========================
+docker-data/
+*.pid
+
+# =========================
+# Temporary Files
+# =========================
+*.tmp
+*.swp
+*.swo

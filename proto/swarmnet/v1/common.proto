@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package swarmnet.v1;
+
+// Unique identifier for a drone.
+message DroneId {
+  string value = 1;
+}
+
+// Unique identifier for a mission.
+message MissionId {
+  string value = 1;
+}
+
+// Latitude/longitude/altitude position.
+message GeoPoint {
+  double latitude = 1;
+  double longitude = 2;
+  double altitude_meters = 3;
+}
+
+// 3D vector for velocity, acceleration, wind, etc.
+message Vector3 {
+  double x = 1;
+  double y = 2;
+  double z = 3;
+}
+
+// A mission waypoint.
+message Waypoint {
+  string id = 1;
+  GeoPoint position = 2;
+  double target_speed_mps = 3;
+  double loiter_seconds = 4;
+}
+
+// Metadata template for messages
+message MessageEnvelope {
+  string message_id = 1;
+  string message_type = 2;
+  uint64 timestamp_ms = 3;
+  string correlation_id = 4;
+  string causation_id = 5;
+  string source_component = 6;
+}
+
+// Possible states for execution of messages
+enum ExecutionStatus {
+  EXECUTION_STATUS_UNSPECIFIED = 0;
+  EXECUTION_STATUS_PENDING = 1;
+  EXECUTION_STATUS_ACTIVE = 2;
+  EXECUTION_STATUS_COMPLETED = 3;
+  EXECUTION_STATUS_FAILED = 4;
+  EXECUTION_STATUS_ABORTED = 5;
+}

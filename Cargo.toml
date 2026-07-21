@@ -1,0 +1,7 @@
+[workspace]
+resolver = "2"
+members = [
+  "packages/simulation",
+  "packages/swarmnet-proto",
+  "services/simulation-runtime",
+]

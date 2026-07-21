@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package swarmnet.v1;
+
+import "swarmnet/v1/common.proto";
+import "swarmnet/v1/route.proto";
+
+message FlightPlan {
+  string id = 1;
+
+  MissionId mission_id = 2;
+
+  DroneId assigned_drone_id = 3;
+
+  Route route = 4;
+
+  ExecutionStatus status = 5;
+
+  repeated string objectives = 6;
+
+  repeated string constraints = 7;
+
+  string contingency_behavior = 8;
+}

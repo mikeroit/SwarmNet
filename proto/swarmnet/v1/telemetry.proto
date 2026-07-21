@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package swarmnet.v1;
+
+import "swarmnet/v1/drone.proto";
+
+message TelemetryEvent {
+
+  DroneState drone = 1;
+
+  uint64 timestamp_ms = 2;
+}

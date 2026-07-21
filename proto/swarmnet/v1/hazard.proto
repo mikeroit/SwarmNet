@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package swarmnet.v1;
+
+import "swarmnet/v1/common.proto";
+
+enum HazardType {
+  HAZARD_TYPE_UNSPECIFIED = 0;
+  HAZARD_TYPE_OBSTACLE = 1;
+  HAZARD_TYPE_WEATHER = 2;
+  HAZARD_TYPE_NO_FLY_ZONE = 3;
+  HAZARD_TYPE_AIR_TRAFFIC = 4;
+}
+
+message Hazard {
+
+  string id = 1;
+
+  HazardType type = 2;
+
+  GeoPoint location = 3;
+
+  double radius_meters = 4;
+
+  double confidence = 5;
+
+  uint64 detected_timestamp_ms = 6;
+}
