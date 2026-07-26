@@ -1,5 +1,5 @@
 use crate::events::Event;
-use crate::model::{Hazard, RoutePlanner, World, ValidationStatus, Waypoint};
+use crate::model::{Hazard, RoutePlanner, ValidationStatus, Waypoint, World};
 
 pub struct RoutePlanningSystem;
 
@@ -40,11 +40,9 @@ impl RoutePlanningSystem {
 
             let hazards: Vec<&Hazard> = drone.local_hazard_map.hazards().collect();
 
-            let new_route = RoutePlanner::plan(
-                route_id,
-                &planning_waypoints,
-                &hazards
-            );
+            let new_route_id = flight_plan_execution.next_replan_route_id();
+
+            let new_route = RoutePlanner::plan(new_route_id, &planning_waypoints, &hazards);
 
             let new_route_id = new_route.id().clone();
 

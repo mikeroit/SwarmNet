@@ -1,4 +1,4 @@
-use crate::model::{FlightPlan, Route, RouteExecution};
+use crate::model::{FlightPlan, Route, RouteExecution, RouteId};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ExecutionStatus {
@@ -21,6 +21,7 @@ pub struct FlightPlanExecution {
     pub route_execution: RouteExecution,
     pub execution_status: ExecutionStatus,
     pub validation_status: ValidationStatus,
+    replan_count: u32,
 }
 
 impl FlightPlanExecution {
@@ -32,6 +33,7 @@ impl FlightPlanExecution {
             route_execution: RouteExecution::new(route),
             execution_status: ExecutionStatus::Pending,
             validation_status: ValidationStatus::Valid,
+            replan_count: 0,
         }
     }
 
@@ -42,5 +44,15 @@ impl FlightPlanExecution {
     pub fn replace_route(&mut self, new_route: Route) {
         self.route_execution = RouteExecution::new(new_route);
         self.validation_status = ValidationStatus::Valid;
+    }
+
+    pub fn next_replan_route_id(&mut self) -> RouteId {
+        self.replan_count += 1;
+
+        RouteId::from(format!(
+            "{}-replan-{}",
+            self.flight_plan.route().id(),
+            self.replan_count,
+        ))
     }
 }

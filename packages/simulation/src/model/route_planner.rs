@@ -1,8 +1,3 @@
-#[cfg(test)]
-use crate::math::{Circle, Point2};
-#[cfg(test)]
-use crate::model::{HazardSeverity, HazardState, HazardType};
-
 use crate::math::{LineSegment, Vector2};
 use crate::model::{Hazard, Route, RouteId, Waypoint};
 
@@ -21,7 +16,7 @@ impl RoutePlanner {
         let mut planned_waypoints = Vec::new();
 
         for pair in waypoints.windows(2) {
-            let mut segment = Self::plan_segment(&pair[0], &pair[1], &hazards);
+            let mut segment = Self::plan_segment(&pair[0], &pair[1], hazards);
 
             if !planned_waypoints.is_empty() && !segment.is_empty() {
                 segment.remove(0);
@@ -102,95 +97,84 @@ impl RoutePlanner {
     }
 }
 
-#[test]
-fn planned_segment_avoids_single_blocking_hazard() {
-    let start = Waypoint::new("start", Point2::new(0.0, 0.0));
-    let end = Waypoint::new("end", Point2::new(20.0, 0.0));
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::math::{Circle, Point2};
+    use crate::model::{HazardSeverity, HazardState, HazardType};
 
-    let hazard = Hazard::new(
-        "hazard-001".into(),
-        Circle::new(Point2::new(10.0, 0.0), 2.0),
-        HazardType::StaticObstacle,
-        HazardSeverity::High,
-        HazardState::Active,
-    );
+    #[test]
+    fn planned_segment_avoids_single_blocking_hazard() {
+        let start = Waypoint::new("start", Point2::new(0.0, 0.0));
+        let end = Waypoint::new("end", Point2::new(20.0, 0.0));
 
-    let planned = RoutePlanner::plan_segment(&start, &end, &[&hazard]);
+        let hazard = Hazard::new(
+            "hazard-001".into(),
+            Circle::new(Point2::new(10.0, 0.0), 2.0),
+            HazardType::StaticObstacle,
+            HazardSeverity::High,
+            HazardState::Active,
+        );
 
-    assert!(planned.len() > 2);
+        let planned = RoutePlanner::plan_segment(&start, &end, &[&hazard]);
 
-    for pair in planned.windows(2) {
-        let segment = LineSegment::new(pair[0].position, pair[1].position);
+        assert!(planned.len() > 2);
+
+        for pair in planned.windows(2) {
+            let segment = LineSegment::new(pair[0].position, pair[1].position);
+
+            assert!(
+                !hazard.footprint.intersects_line_segment(&segment),
+                "planned segment still intersects the hazard"
+            );
+        }
+    }
+
+    #[test]
+    fn replanned_route_from_current_drone_position_avoids_scenario_hazard() {
+        let current_position = Waypoint::new("replan-start-drone-001", Point2::new(0.8, 0.0));
+
+        let destination = Waypoint::new("wp-002", Point2::new(10.0, 10.0));
+
+        let hazard = Hazard::new(
+            "hazard-001".into(),
+            Circle::new(Point2::new(2.0, 0.0), 1.0),
+            HazardType::StaticObstacle,
+            HazardSeverity::Low,
+            HazardState::Active,
+        );
+
+        let planned_route =
+            RoutePlanner::plan("route-001", &[current_position, destination], &[&hazard]);
 
         assert!(
-            !hazard.footprint.intersects_line_segment(&segment),
-            "planned segment still intersects the hazard"
+            planned_route.waypoints().len() > 2,
+            "planner should insert detour waypoints for the blocking hazard"
         );
+
+        for pair in planned_route.waypoints().windows(2) {
+            let segment = LineSegment::new(pair[0].position, pair[1].position);
+
+            assert!(
+                !hazard.footprint.intersects_line_segment(&segment),
+                concat!(
+                    "replanned segment still intersects hazard: ",
+                    "{:?} -> {:?}"
+                ),
+                pair[0].position,
+                pair[1].position,
+            );
+        }
     }
-}
 
-#[test]
-fn replanned_route_from_current_drone_position_avoids_scenario_hazard() {
-    let current_position = Waypoint::new(
-        "replan-start-drone-001",
-        Point2::new(0.8, 0.0),
-    );
+    #[test]
+    fn plan_deduplicates_shared_segment_boundaries() {
+        let a = Waypoint::new("a", Point2::new(0.0, 0.0));
+        let b = Waypoint::new("b", Point2::new(1.0, 0.0));
+        let c = Waypoint::new("c", Point2::new(2.0, 0.0));
 
-    let destination = Waypoint::new(
-        "wp-002",
-        Point2::new(10.0, 10.0),
-    );
+        let route = RoutePlanner::plan("route-001", &[a.clone(), b.clone(), c.clone()], &[]);
 
-    let hazard = Hazard::new(
-        "hazard-001".into(),
-        Circle::new(Point2::new(2.0, 0.0), 1.0),
-        HazardType::StaticObstacle,
-        HazardSeverity::Low,
-        HazardState::Active,
-    );
-
-    let planned_route = RoutePlanner::plan(
-        "route-001",
-        &[current_position, destination],
-        &[&hazard],
-    );
-
-    assert!(
-        planned_route.waypoints().len() > 2,
-        "planner should insert detour waypoints for the blocking hazard"
-    );
-
-    for pair in planned_route.waypoints().windows(2) {
-        let segment = LineSegment::new(
-            pair[0].position,
-            pair[1].position,
-        );
-
-        assert!(
-            !hazard
-                .footprint
-                .intersects_line_segment(&segment),
-            concat!(
-                "replanned segment still intersects hazard: ",
-                "{:?} -> {:?}"
-            ),
-            pair[0].position,
-            pair[1].position,
-        );
+        assert_eq!(route.waypoints(), &[a, b, c]);
     }
-}
-
-#[test]
-fn plan_deduplicates_shared_segment_boundaries() {
-    let a = Waypoint::new("a", Point2::new(0.0, 0.0));
-    let b = Waypoint::new("b", Point2::new(1.0, 0.0));
-    let c = Waypoint::new("c", Point2::new(2.0, 0.0));
-
-    let route = RoutePlanner::plan(
-        "route-001",
-        &[a.clone(), b.clone(), c.clone()],
-        &[],
-    );
-
-    assert_eq!(route.waypoints(), &[a, b, c]);
 }
