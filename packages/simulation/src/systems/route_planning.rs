@@ -21,7 +21,6 @@ impl RoutePlanningSystem {
 
             let route_execution = &flight_plan_execution.route_execution;
 
-            let route_id = route_execution.route.id().clone();
             let current_index = route_execution.current_waypoint_index;
             let waypoints = route_execution.route.waypoints();
 
