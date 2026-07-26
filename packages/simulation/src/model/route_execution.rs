@@ -3,9 +3,9 @@ use crate::Waypoint;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct RouteExecution {
-    pub route: Route,
-    pub current_waypoint_index: usize,
-    pub completed: bool,
+    route: Route,
+    current_waypoint_index: usize,
+    completed: bool,
 }
 
 impl RouteExecution {
@@ -33,5 +33,17 @@ impl RouteExecution {
         } else {
             self.current_waypoint_index += 1;
         }
+    }
+
+    pub fn is_complete(&self) -> bool {
+        self.completed
+    }
+
+    pub fn active_route(&self) -> &Route {
+        &self.route
+    }
+
+    pub fn current_waypoint_index(&self) -> usize {
+        self.current_waypoint_index
     }
 }

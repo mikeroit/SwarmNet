@@ -27,7 +27,7 @@ impl RouteFollowingSystem {
             let drone_id = drone.id.clone();
             let route_id = flight_plan_execution
                 .route_execution
-                .route
+                .active_route()
                 .id()
                 .clone();
             let waypoint_id = target_waypoint.id.clone();
@@ -48,7 +48,7 @@ impl RouteFollowingSystem {
 
                 flight_plan_execution.route_execution.advance_waypoint();
 
-                if flight_plan_execution.route_execution.completed {
+                if flight_plan_execution.route_execution.is_complete() {
                     events.push(Event::RouteCompleted {
                         drone_id: drone_id.clone(),
                         route_id: route_id.clone(),

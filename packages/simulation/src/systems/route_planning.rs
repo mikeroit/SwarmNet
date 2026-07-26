@@ -21,8 +21,8 @@ impl RoutePlanningSystem {
 
             let route_execution = &flight_plan_execution.route_execution;
 
-            let current_index = route_execution.current_waypoint_index;
-            let waypoints = route_execution.route.waypoints();
+            let current_index = route_execution.current_waypoint_index();
+            let waypoints = route_execution.active_route().waypoints();
 
             let Some(remaining_waypoints) = waypoints.get(current_index..) else {
                 continue;

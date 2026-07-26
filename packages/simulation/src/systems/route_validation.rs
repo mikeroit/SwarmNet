@@ -45,7 +45,7 @@ impl RouteValidationSystem {
 
         let route_execution = &flight_plan_execution.route_execution;
 
-        if route_execution.completed {
+        if route_execution.is_complete() {
             return RouteValidationResult::valid();
         }
 
@@ -84,8 +84,8 @@ impl RouteValidationSystem {
         };
 
         let route_execution = &flight_plan_execution.route_execution;
-        let route = &route_execution.route;
-        let current_index = route_execution.current_waypoint_index;
+        let route = &route_execution.active_route();
+        let current_index = route_execution.current_waypoint_index();
 
         let waypoints = route.waypoints();
 
@@ -137,7 +137,7 @@ impl RouteValidationSystem {
             {
                 let route_id = flight_plan_execution
                     .route_execution
-                    .route
+                    .active_route()
                     .id()
                     .clone();
 
