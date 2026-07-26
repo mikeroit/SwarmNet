@@ -17,7 +17,7 @@ impl World {
     pub fn new(drones: Vec<SimDrone>, hazards: Vec<Hazard>) -> Self {
         Self {
             drones,
-            event_queue: EventQueue::new(),
+            event_queue: EventQueue::new(vec!()),
             hazards,
         }
     }

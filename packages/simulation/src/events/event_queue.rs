@@ -1,14 +1,16 @@
 use crate::events::Event;
+use derive_new;
 
-#[derive(Debug, Default, Clone, PartialEq, Eq)]
+
+#[derive(Debug, Default, Clone, PartialEq, Eq, derive_new::new)]
 pub struct EventQueue {
     events: Vec<Event>,
 }
 
 impl EventQueue {
-    pub fn new() -> Self {
-        Self { events: Vec::new() }
-    }
+    //pub fn new() -> Self {
+        //Self { events: Vec::new() }
+    //}
 
     pub fn push(&mut self, event: Event) {
         self.events.push(event);
