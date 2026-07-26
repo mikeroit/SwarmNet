@@ -1,13 +1,13 @@
 use crate::SimDrone;
-use crate::SimulationClock;
-use crate::SimulationEvent;
-use crate::SimulationWorld;
+use crate::Clock;
+use crate::Event;
+use crate::World;
 
 #[derive(Debug)]
 pub struct ConsoleRenderer;
 
 impl ConsoleRenderer {
-    pub fn render(world: &SimulationWorld, events: &[SimulationEvent], clock: &SimulationClock) {
+    pub fn render(world: &World, events: &[Event], clock: &Clock) {
         print_header(clock);
 
         println!("");
@@ -22,7 +22,7 @@ impl ConsoleRenderer {
     }
 }
 
-fn print_header(clock: &SimulationClock) {
+fn print_header(clock: &Clock) {
     let header = format!(
         "Tick: {}      Sim Time: {:?}",
         clock.tick(),
@@ -67,7 +67,7 @@ fn print_drone_state(drone: &SimDrone) {
     }
 }
 
-fn print_events(events: &[SimulationEvent]) {
+fn print_events(events: &[Event]) {
     println!("EVENTS");
     println!("");
 

@@ -1,9 +1,9 @@
 #[cfg(test)]
 use crate::model::{DroneId, RouteId};
 use crate::{
-    events::SimulationEvent,
+    events::Event,
     math::LineSegment,
-    model::{HazardId, HazardState, SimDrone, SimulationWorld, ValidationStatus},
+    model::{HazardId, HazardState, SimDrone, World, ValidationStatus},
 };
 
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
@@ -112,7 +112,7 @@ impl RouteValidationSystem {
         segments
     }
 
-    pub fn step(world: &mut SimulationWorld) {
+    pub fn step(world: &mut World) {
         let mut events = Vec::new();
 
         for drone in world.drones_mut() {
@@ -142,7 +142,7 @@ impl RouteValidationSystem {
                     .clone();
 
                 for hazard_id in result.blocking_hazard_ids() {
-                    events.push(SimulationEvent::RouteBlocked {
+                    events.push(Event::RouteBlocked {
                         drone_id: drone.id.clone(),
                         route_id: route_id.clone(),
                         hazard_id: hazard_id.clone(),
@@ -268,10 +268,10 @@ mod tests {
         );
 
         // Route validation uses the drone's local knowledge, not the
-        // authoritative hazards stored in SimulationWorld.
+        // authoritative hazards stored in World.
         assert!(drone.local_hazard_map.insert(hazard.clone()));
 
-        let mut world = SimulationWorld::new(vec![drone], vec![hazard]);
+        let mut world = World::new(vec![drone], vec![hazard]);
 
         RouteValidationSystem::step(&mut world);
 
@@ -289,7 +289,7 @@ mod tests {
 
         assert_eq!(
             events[0],
-            SimulationEvent::RouteBlocked {
+            Event::RouteBlocked {
                 drone_id: DroneId::new("drone-001"),
                 route_id: RouteId::new("route-001"),
                 hazard_id: HazardId::new("hazard-001"),

@@ -1,11 +1,11 @@
 use std::time::Duration;
 
-use crate::{ExecutionStatus, SimulationEvent, SimulationWorld};
+use crate::{ExecutionStatus, Event, World};
 
 pub struct RouteFollowingSystem;
 
 impl RouteFollowingSystem {
-    pub fn step(world: &mut SimulationWorld, tick_duration: Duration) {
+    pub fn step(world: &mut World, tick_duration: Duration) {
         let delta_seconds = tick_duration.as_secs_f64();
 
         let mut events = Vec::new();
@@ -38,7 +38,7 @@ impl RouteFollowingSystem {
             let max_travel_distance = drone.speed_mps * delta_seconds;
 
             if distance_to_target <= max_travel_distance {
-                events.push(SimulationEvent::WaypointReached {
+                events.push(Event::WaypointReached {
                     drone_id: drone_id.clone(),
                     route_id: route_id.clone(),
                     waypoint_id: waypoint_id.clone(),
@@ -49,12 +49,12 @@ impl RouteFollowingSystem {
                 flight_plan_execution.route_execution.advance_waypoint();
 
                 if flight_plan_execution.route_execution.completed {
-                    events.push(SimulationEvent::RouteCompleted {
+                    events.push(Event::RouteCompleted {
                         drone_id: drone_id.clone(),
                         route_id: route_id.clone(),
                     });
 
-                    events.push(SimulationEvent::FlightPlanCompleted {
+                    events.push(Event::FlightPlanCompleted {
                         drone_id: drone_id.clone(),
                         flight_plan_id: flight_plan_id.clone(),
                     });

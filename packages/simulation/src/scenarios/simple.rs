@@ -1,13 +1,13 @@
 use crate::FlightPlan;
 use crate::math::{Circle, Point2};
 use crate::model::{Hazard, HazardSeverity, HazardState, HazardType};
-use crate::model::{Route, SimDrone, SimulationWorld, Waypoint};
+use crate::model::{Route, SimDrone, World, Waypoint};
 
 pub struct SimpleScenario;
 pub struct MultiDroneScenario;
 
 impl SimpleScenario {
-    pub fn build() -> SimulationWorld {
+    pub fn build() -> World {
         let route = Route::new(
             "route-001",
             vec![
@@ -23,12 +23,12 @@ impl SimpleScenario {
 
         drone.assign_flight_plan(flight_plan);
 
-        SimulationWorld::new(vec![drone], vec![])
+        World::new(vec![drone], vec![])
     }
 }
 
 impl MultiDroneScenario {
-    pub fn build() -> SimulationWorld {
+    pub fn build() -> World {
         let route_a = Route::new(
             "route-001",
             vec![
@@ -80,6 +80,6 @@ impl MultiDroneScenario {
 
         let hazards = vec![hazard_a];
 
-        SimulationWorld::new(drones, hazards)
+        World::new(drones, hazards)
     }
 }

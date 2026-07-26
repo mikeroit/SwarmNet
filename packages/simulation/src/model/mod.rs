@@ -20,4 +20,4 @@ pub use route::Route;
 pub use route_execution::RouteExecution;
 pub use route_planner::RoutePlanner;
 pub use waypoint::Waypoint;
-pub use world::SimulationWorld;
+pub use world::World;

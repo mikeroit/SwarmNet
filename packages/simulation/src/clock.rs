@@ -1,12 +1,12 @@
 use std::time::Duration;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct SimulationClock {
+pub struct Clock {
     tick: u64,
     tick_duration: Duration,
 }
 
-impl SimulationClock {
+impl Clock {
     pub fn new(tick_duration: Duration) -> Self {
         Self {
             tick: 0,
@@ -37,14 +37,14 @@ mod tests {
 
     #[test]
     fn starts_at_tick_zero() {
-        let clock = SimulationClock::new(Duration::from_millis(100));
+        let clock = Clock::new(Duration::from_millis(100));
         assert_eq!(clock.tick(), 0);
         assert_eq!(clock.elapsed_time(), Duration::from_millis(0));
     }
 
     #[test]
     fn advances_one_tick() {
-        let mut clock = SimulationClock::new(Duration::from_millis(100));
+        let mut clock = Clock::new(Duration::from_millis(100));
         clock.advance();
 
         assert_eq!(clock.tick(), 1);
@@ -53,7 +53,7 @@ mod tests {
 
     #[test]
     fn advances_multiple_ticks() {
-        let mut clock = SimulationClock::new(Duration::from_millis(100));
+        let mut clock = Clock::new(Duration::from_millis(100));
 
         for _ in 0..10 {
             clock.advance();

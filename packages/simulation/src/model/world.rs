@@ -1,19 +1,19 @@
 use std::time::Duration;
 
-use crate::events::{EventQueue, SimulationEvent};
+use crate::events::{EventQueue, Event};
 use crate::model::{Hazard, SimDrone};
 use crate::systems::{
     HazardDetectionSystem, RouteFollowingSystem, RoutePlanningSystem, RouteValidationSystem,
 };
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct SimulationWorld {
+pub struct World {
     drones: Vec<SimDrone>,
     event_queue: EventQueue,
     hazards: Vec<Hazard>,
 }
 
-impl SimulationWorld {
+impl World {
     pub fn new(drones: Vec<SimDrone>, hazards: Vec<Hazard>) -> Self {
         Self {
             drones,
@@ -34,7 +34,7 @@ impl SimulationWorld {
         &mut self.event_queue
     }
 
-    pub fn drain_events(&mut self) -> Vec<SimulationEvent> {
+    pub fn drain_events(&mut self) -> Vec<Event> {
         self.event_queue.drain()
     }
 
@@ -54,7 +54,7 @@ impl SimulationWorld {
     }
 }
 
-impl Default for SimulationWorld {
+impl Default for World {
     fn default() -> Self {
         Self::new(Vec::new(), Vec::new())
     }

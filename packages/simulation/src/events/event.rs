@@ -1,7 +1,7 @@
 use crate::model::{DroneId, FlightPlanId, HazardId, RouteId, WaypointId};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub enum SimulationEvent {
+pub enum Event {
     WaypointReached {
         drone_id: DroneId,
         route_id: RouteId,
@@ -30,10 +30,10 @@ pub enum SimulationEvent {
     },
 }
 
-impl std::fmt::Display for SimulationEvent {
+impl std::fmt::Display for Event {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            SimulationEvent::WaypointReached {
+            Event::WaypointReached {
                 drone_id,
                 route_id: _,
                 waypoint_id,
@@ -46,7 +46,7 @@ impl std::fmt::Display for SimulationEvent {
                 )
             }
 
-            SimulationEvent::RouteCompleted { drone_id, route_id } => {
+            Event::RouteCompleted { drone_id, route_id } => {
                 write!(
                     f,
                     "{} completed Route {}",
@@ -55,7 +55,7 @@ impl std::fmt::Display for SimulationEvent {
                 )
             }
 
-            SimulationEvent::FlightPlanCompleted {
+            Event::FlightPlanCompleted {
                 drone_id,
                 flight_plan_id,
             } => {
@@ -67,7 +67,7 @@ impl std::fmt::Display for SimulationEvent {
                 )
             }
 
-            SimulationEvent::HazardDetected {
+            Event::HazardDetected {
                 drone_id,
                 hazard_id,
             } => {
@@ -78,7 +78,7 @@ impl std::fmt::Display for SimulationEvent {
                     hazard_id
                 )
             }
-            SimulationEvent::RouteBlocked {
+            Event::RouteBlocked {
                 drone_id,
                 route_id,
                 hazard_id,
@@ -91,7 +91,7 @@ impl std::fmt::Display for SimulationEvent {
                     hazard_id.display_name(),
                 )
             }
-            SimulationEvent::RouteReplanned { drone_id, route_id } => {
+            Event::RouteReplanned { drone_id, route_id } => {
                 write!(
                     f,
                     "{} replanned {}",

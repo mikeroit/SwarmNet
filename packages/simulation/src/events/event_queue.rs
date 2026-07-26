@@ -1,8 +1,8 @@
-use crate::events::SimulationEvent;
+use crate::events::Event;
 
 #[derive(Debug, Default, Clone, PartialEq, Eq)]
 pub struct EventQueue {
-    events: Vec<SimulationEvent>,
+    events: Vec<Event>,
 }
 
 impl EventQueue {
@@ -10,15 +10,15 @@ impl EventQueue {
         Self { events: Vec::new() }
     }
 
-    pub fn push(&mut self, event: SimulationEvent) {
+    pub fn push(&mut self, event: Event) {
         self.events.push(event);
     }
 
-    pub fn events(&self) -> &[SimulationEvent] {
+    pub fn events(&self) -> &[Event] {
         self.events.as_slice()
     }
 
-    pub fn drain(&mut self) -> Vec<SimulationEvent> {
+    pub fn drain(&mut self) -> Vec<Event> {
         self.events.drain(..).collect()
     }
 

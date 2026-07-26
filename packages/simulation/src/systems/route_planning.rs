@@ -1,10 +1,10 @@
-use crate::events::SimulationEvent;
-use crate::model::{Hazard, RoutePlanner, SimulationWorld, ValidationStatus, Waypoint};
+use crate::events::Event;
+use crate::model::{Hazard, RoutePlanner, World, ValidationStatus, Waypoint};
 
 pub struct RoutePlanningSystem;
 
 impl RoutePlanningSystem {
-    pub fn step(world: &mut SimulationWorld) {
+    pub fn step(world: &mut World) {
         let mut events = Vec::new();
 
         for drone in world.drones_mut() {
@@ -50,7 +50,7 @@ impl RoutePlanningSystem {
 
             flight_plan_execution.replace_route(new_route);
 
-            events.push(SimulationEvent::RouteReplanned {
+            events.push(Event::RouteReplanned {
                 drone_id,
                 route_id: new_route_id,
             });
