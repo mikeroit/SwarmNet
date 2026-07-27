@@ -15,25 +15,31 @@ impl RouteFollowingSystem {
                 continue;
             };
 
-            let Some(target_waypoint) = flight_plan_execution.route_execution.current_waypoint()
-            else {
-                continue;
-            };
+            let Some((waypoint_id, target_position)) = flight_plan_execution
+                .route_execution()
+                .current_waypoint()
+                .map(|waypoint| {
+                    (
+                        waypoint.id.clone(),
+                        waypoint.position,
+                    )
+                })
+                else {
+                    continue;
+                };
 
-            if flight_plan_execution.execution_status == ExecutionStatus::Pending {
-                flight_plan_execution.execution_status = ExecutionStatus::Active;
+            if flight_plan_execution.execution_status() == ExecutionStatus::Pending {
+                flight_plan_execution.start_execution();
             }
 
             let drone_id = drone.id.clone();
             let route_id = flight_plan_execution
-                .route_execution
+                .route_execution()
                 .active_route()
                 .id()
                 .clone();
-            let waypoint_id = target_waypoint.id.clone();
             let flight_plan_id = flight_plan_execution.flight_plan().id().clone();
 
-            let target_position = target_waypoint.position;
             let distance_to_target = drone.position.distance_to(&target_position);
             let max_travel_distance = drone.speed_mps * delta_seconds;
 
@@ -46,9 +52,9 @@ impl RouteFollowingSystem {
 
                 drone.position = target_position;
 
-                flight_plan_execution.route_execution.advance_waypoint();
+                flight_plan_execution.route_execution_mut().advance_waypoint();
 
-                if flight_plan_execution.route_execution.is_complete() {
+                if flight_plan_execution.route_execution().is_complete() {
                     events.push(Event::RouteCompleted {
                         drone_id: drone_id.clone(),
                         route_id: route_id.clone(),
@@ -59,7 +65,7 @@ impl RouteFollowingSystem {
                         flight_plan_id: flight_plan_id.clone(),
                     });
 
-                    flight_plan_execution.execution_status = ExecutionStatus::Completed;
+                    flight_plan_execution.complete_execution();
                 }
             } else {
                 let direction = drone.position.direction_to(&target_position);

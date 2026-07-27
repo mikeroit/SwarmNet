@@ -15,11 +15,11 @@ impl RoutePlanningSystem {
                 continue;
             };
 
-            if flight_plan_execution.validation_status != ValidationStatus::Blocked {
+            if flight_plan_execution.validation_status() != ValidationStatus::Blocked {
                 continue;
             }
 
-            let route_execution = &flight_plan_execution.route_execution;
+            let route_execution = &flight_plan_execution.route_execution();
 
             let current_index = route_execution.current_waypoint_index();
             let waypoints = route_execution.active_route().waypoints();

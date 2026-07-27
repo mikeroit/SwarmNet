@@ -43,7 +43,7 @@ impl RouteValidationSystem {
             return RouteValidationResult::valid();
         };
 
-        let route_execution = &flight_plan_execution.route_execution;
+        let route_execution = flight_plan_execution.route_execution();
 
         if route_execution.is_complete() {
             return RouteValidationResult::valid();
@@ -83,7 +83,7 @@ impl RouteValidationSystem {
             return Vec::new();
         };
 
-        let route_execution = &flight_plan_execution.route_execution;
+        let route_execution = &flight_plan_execution.route_execution();
         let route = &route_execution.active_route();
         let current_index = route_execution.current_waypoint_index();
 
@@ -122,7 +122,7 @@ impl RouteValidationSystem {
                 continue;
             };
 
-            let previous_status = flight_plan_execution.validation_status;
+            let previous_status = flight_plan_execution.validation_status();
 
             let next_status = if result.is_valid() {
                 ValidationStatus::Valid
@@ -130,13 +130,16 @@ impl RouteValidationSystem {
                 ValidationStatus::Blocked
             };
 
-            flight_plan_execution.validation_status = next_status;
+            match next_status {
+                ValidationStatus::Valid => flight_plan_execution.mark_route_valid(),
+                ValidationStatus::Blocked => flight_plan_execution.mark_route_blocked(),
+            }
 
             if previous_status == ValidationStatus::Valid
                 && next_status == ValidationStatus::Blocked
             {
                 let route_id = flight_plan_execution
-                    .route_execution
+                    .route_execution()
                     .active_route()
                     .id()
                     .clone();
@@ -281,7 +284,7 @@ mod tests {
             .as_ref()
             .expect("drone should have a flight plan execution");
 
-        assert_eq!(execution.validation_status, ValidationStatus::Blocked);
+        assert_eq!(execution.validation_status(), ValidationStatus::Blocked);
 
         let events = world.drain_events();
 

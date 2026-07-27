@@ -52,16 +52,16 @@ fn print_drone_state(drone: &SimDrone) {
 
         println!(
             "  Route: {}",
-            flight_plan_execution.route_execution.active_route().id()
+            flight_plan_execution.route_execution().active_route().id()
         );
 
-        if let Some(waypoint) = flight_plan_execution.route_execution.current_waypoint() {
+        if let Some(waypoint) = flight_plan_execution.route_execution().current_waypoint() {
             println!("  Current Waypoint: {}", waypoint.id);
         } else {
             println!("  Current Waypoint: None");
         }
 
-        println!("  Status: {:?}", flight_plan_execution.execution_status);
+        println!("  Status: {:?}", flight_plan_execution.execution_status());
     } else {
         println!("No Flight Plan Assigned");
     }
