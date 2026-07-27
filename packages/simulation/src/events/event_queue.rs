@@ -1,10 +1,10 @@
-use crate::events::Event;
+use crate::events::DomainEvent;
 use derive_new;
 
 
 #[derive(Debug, Default, Clone, PartialEq, Eq, derive_new::new)]
 pub struct EventQueue {
-    events: Vec<Event>,
+    events: Vec<DomainEvent>,
 }
 
 impl EventQueue {
@@ -12,15 +12,15 @@ impl EventQueue {
         //Self { events: Vec::new() }
     //}
 
-    pub fn push(&mut self, event: Event) {
+    pub fn push(&mut self, event: DomainEvent) {
         self.events.push(event);
     }
 
-    pub fn events(&self) -> &[Event] {
+    pub fn events(&self) -> &[DomainEvent] {
         self.events.as_slice()
     }
 
-    pub fn drain(&mut self) -> Vec<Event> {
+    pub fn drain(&mut self) -> Vec<DomainEvent> {
         self.events.drain(..).collect()
     }
 

@@ -9,7 +9,7 @@ pub mod state;
 pub mod systems;
 
 pub use clock::Clock;
-pub use events::{EventQueue, Event};
+pub use events::{EventQueue, DomainEvent};
 pub use math::{Circle, LineSegment, Point2, Vector2};
 pub use model::{DroneId, FlightPlanId, HazardId, MissionId, RouteId, WaypointId};
 pub use model::{ExecutionStatus, SimDrone, World, Waypoint};

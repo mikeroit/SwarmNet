@@ -1,4 +1,4 @@
-use crate::events::Event;
+use crate::events::DomainEvent;
 use crate::model::{Hazard, RoutePlanner, ValidationStatus, Waypoint, World};
 
 pub struct RoutePlanningSystem;
@@ -47,7 +47,7 @@ impl RoutePlanningSystem {
 
             flight_plan_execution.replace_route(new_route);
 
-            events.push(Event::RouteReplanned {
+            events.push(DomainEvent::RouteReplanned {
                 drone_id,
                 route_id: new_route_id,
             });

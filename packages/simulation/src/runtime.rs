@@ -1,4 +1,4 @@
-use crate::{Clock, Event, State, World};
+use crate::{Clock, DomainEvent, State, World};
 use std::time::Duration;
 
 #[derive(Debug)]
@@ -31,7 +31,7 @@ impl Runtime {
         &self.world
     }
 
-    pub fn drain_events(&mut self) -> Vec<Event> {
+    pub fn drain_events(&mut self) -> Vec<DomainEvent> {
         self.world.drain_events()
     }
 

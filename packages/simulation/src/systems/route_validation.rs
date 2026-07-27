@@ -1,7 +1,7 @@
 #[cfg(test)]
 use crate::model::{DroneId, RouteId};
 use crate::{
-    events::Event,
+    events::DomainEvent,
     math::LineSegment,
     model::{HazardId, HazardState, SimDrone, World, ValidationStatus},
 };
@@ -145,7 +145,7 @@ impl RouteValidationSystem {
                     .clone();
 
                 for hazard_id in result.blocking_hazard_ids() {
-                    events.push(Event::RouteBlocked {
+                    events.push(DomainEvent::RouteBlocked {
                         drone_id: drone.id.clone(),
                         route_id: route_id.clone(),
                         hazard_id: hazard_id.clone(),
@@ -292,7 +292,7 @@ mod tests {
 
         assert_eq!(
             events[0],
-            Event::RouteBlocked {
+            DomainEvent::RouteBlocked {
                 drone_id: DroneId::new("drone-001"),
                 route_id: RouteId::new("route-001"),
                 hazard_id: HazardId::new("hazard-001"),

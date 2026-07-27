@@ -1,7 +1,7 @@
 use crate::model::{DroneId, FlightPlanId, HazardId, RouteId, WaypointId};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub enum Event {
+pub enum DomainEvent {
     WaypointReached {
         drone_id: DroneId,
         route_id: RouteId,
@@ -30,10 +30,10 @@ pub enum Event {
     },
 }
 
-impl std::fmt::Display for Event {
+impl std::fmt::Display for DomainEvent {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Event::WaypointReached {
+            DomainEvent::WaypointReached {
                 drone_id,
                 route_id: _,
                 waypoint_id,
@@ -46,7 +46,7 @@ impl std::fmt::Display for Event {
                 )
             }
 
-            Event::RouteCompleted { drone_id, route_id } => {
+            DomainEvent::RouteCompleted { drone_id, route_id } => {
                 write!(
                     f,
                     "{} completed Route {}",
@@ -55,7 +55,7 @@ impl std::fmt::Display for Event {
                 )
             }
 
-            Event::FlightPlanCompleted {
+            DomainEvent::FlightPlanCompleted {
                 drone_id,
                 flight_plan_id,
             } => {
@@ -67,7 +67,7 @@ impl std::fmt::Display for Event {
                 )
             }
 
-            Event::HazardDetected {
+            DomainEvent::HazardDetected {
                 drone_id,
                 hazard_id,
             } => {
@@ -78,7 +78,7 @@ impl std::fmt::Display for Event {
                     hazard_id
                 )
             }
-            Event::RouteBlocked {
+            DomainEvent::RouteBlocked {
                 drone_id,
                 route_id,
                 hazard_id,
@@ -91,7 +91,7 @@ impl std::fmt::Display for Event {
                     hazard_id.display_name(),
                 )
             }
-            Event::RouteReplanned { drone_id, route_id } => {
+            DomainEvent::RouteReplanned { drone_id, route_id } => {
                 write!(
                     f,
                     "{} replanned {}",

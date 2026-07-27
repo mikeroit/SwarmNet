@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use crate::{ExecutionStatus, Event, World};
+use crate::{ExecutionStatus, DomainEvent, World};
 
 pub struct RouteFollowingSystem;
 
@@ -44,7 +44,7 @@ impl RouteFollowingSystem {
             let max_travel_distance = drone.speed_mps * delta_seconds;
 
             if distance_to_target <= max_travel_distance {
-                events.push(Event::WaypointReached {
+                events.push(DomainEvent::WaypointReached {
                     drone_id: drone_id.clone(),
                     route_id: route_id.clone(),
                     waypoint_id: waypoint_id.clone(),
@@ -55,12 +55,12 @@ impl RouteFollowingSystem {
                 flight_plan_execution.route_execution_mut().advance_waypoint();
 
                 if flight_plan_execution.route_execution().is_complete() {
-                    events.push(Event::RouteCompleted {
+                    events.push(DomainEvent::RouteCompleted {
                         drone_id: drone_id.clone(),
                         route_id: route_id.clone(),
                     });
 
-                    events.push(Event::FlightPlanCompleted {
+                    events.push(DomainEvent::FlightPlanCompleted {
                         drone_id: drone_id.clone(),
                         flight_plan_id: flight_plan_id.clone(),
                     });

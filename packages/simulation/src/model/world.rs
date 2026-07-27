@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use crate::events::{EventQueue, Event};
+use crate::events::{EventQueue, DomainEvent};
 use crate::model::{Hazard, SimDrone};
 use crate::systems::{
     HazardDetectionSystem, RouteFollowingSystem, RoutePlanningSystem, RouteValidationSystem,
@@ -34,7 +34,7 @@ impl World {
         &mut self.event_queue
     }
 
-    pub fn drain_events(&mut self) -> Vec<Event> {
+    pub fn drain_events(&mut self) -> Vec<DomainEvent> {
         self.event_queue.drain()
     }
 

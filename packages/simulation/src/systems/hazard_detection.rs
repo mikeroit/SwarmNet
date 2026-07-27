@@ -1,4 +1,4 @@
-use crate::{events::Event, math::Circle, model::World};
+use crate::{events::DomainEvent, math::Circle, model::World};
 
 pub struct HazardDetectionSystem;
 
@@ -17,7 +17,7 @@ impl HazardDetectionSystem {
                 let can_detect = sensor.intersects_circle(&hazard.footprint);
 
                 if can_detect && drone.local_hazard_map.insert(hazard.clone()) {
-                    events.push(Event::HazardDetected {
+                    events.push(DomainEvent::HazardDetected {
                         drone_id: drone.id.clone(),
                         hazard_id: hazard.id.clone(),
                     });
