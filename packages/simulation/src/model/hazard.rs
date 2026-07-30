@@ -1,3 +1,6 @@
+
+use derive_new::new;
+
 use crate::math::Circle;
 use crate::model::HazardId;
 
@@ -23,7 +26,7 @@ pub enum HazardState {
     Cleared,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, new)]
 pub struct Hazard {
     pub id: HazardId,
     pub footprint: Circle,
@@ -32,20 +35,3 @@ pub struct Hazard {
     pub state: HazardState,
 }
 
-impl Hazard {
-    pub fn new(
-        id: HazardId,
-        footprint: Circle,
-        hazard_type: HazardType,
-        severity: HazardSeverity,
-        state: HazardState,
-    ) -> Self {
-        Self {
-            id,
-            footprint,
-            hazard_type,
-            severity,
-            state,
-        }
-    }
-}

@@ -1,6 +1,8 @@
+use derive_new::new;
+
 use crate::model::{FlightPlanId, MissionId, Route};
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, new)]
 pub struct FlightPlan {
     id: FlightPlanId,
     mission_id: MissionId,
@@ -8,18 +10,6 @@ pub struct FlightPlan {
 }
 
 impl FlightPlan {
-    pub fn new(
-        id: impl Into<FlightPlanId>,
-        mission_id: impl Into<MissionId>,
-        route: Route,
-    ) -> Self {
-        Self {
-            id: id.into(),
-            mission_id: mission_id.into(),
-            route,
-        }
-    }
-
     pub fn id(&self) -> &FlightPlanId {
         &self.id
     }
@@ -41,16 +31,16 @@ mod tests {
     #[test]
     fn new_preserves_flight_plan_definition() {
         let route = Route::new(
-            "route-001",
+            "route-001".into(),
             vec![
-                Waypoint::new("wp-001", Point2::new(0.0, 0.0)),
-                Waypoint::new("wp-002", Point2::new(10.0, 0.0)),
+                Waypoint::new("wp-001".into(), Point2::new(0.0, 0.0)),
+                Waypoint::new("wp-002".into(), Point2::new(10.0, 0.0)),
             ],
         );
 
         let flight_plan = FlightPlan::new(
-            "flight-plan-001",
-            "mission-001",
+            "flight-plan-001".into(),
+            "mission-001".into(),
             route.clone(),
         );
 

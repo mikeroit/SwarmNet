@@ -1,18 +1,15 @@
 use std::ops::{Add, Sub};
+use derive_new::new;
 
 use crate::math::Vector2;
 
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, new)]
 pub struct Point2 {
     pub x: f64,
     pub y: f64,
 }
 
 impl Point2 {
-    pub fn new(x: f64, y: f64) -> Self {
-        Self { x, y }
-    }
-
     pub fn distance_to(&self, other: &Self) -> f64 {
         let dx = other.x - self.x;
         let dy = other.y - self.y;

@@ -1,17 +1,13 @@
 use crate::math::{LineSegment, Point2};
+use derive_new::new;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, new)]
 pub struct Circle {
     pub center: Point2,
     pub radius: f64,
 }
 
 impl Circle {
-    pub fn new(center: Point2, radius: f64) -> Self {
-        assert!(radius >= 0.0, "circle radius must be non-negative");
-        Self { center, radius }
-    }
-
     pub fn contains_point(&self, point: &Point2) -> bool {
         self.center.distance_to(point) <= self.radius
     }

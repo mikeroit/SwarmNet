@@ -1,23 +1,17 @@
-#[cfg(test)]
-use crate::model::{DroneId, RouteId};
+use derive_new::new;
+
 use crate::{
     events::DomainEvent,
     math::LineSegment,
     model::{HazardId, HazardState, SimDrone, World, ValidationStatus},
 };
 
-#[derive(Debug, Clone, Default, PartialEq, Eq)]
+#[derive(Debug, Clone, Default, PartialEq, Eq, new)]
 pub struct RouteValidationResult {
     blocking_hazard_ids: Vec<HazardId>,
 }
 
 impl RouteValidationResult {
-    pub fn new(blocking_hazard_ids: Vec<HazardId>) -> Self {
-        Self {
-            blocking_hazard_ids,
-        }
-    }
-
     pub fn valid() -> Self {
         Self::default()
     }
@@ -165,21 +159,21 @@ mod tests {
     use super::*;
     use crate::{
         math::{Circle, Point2},
-        model::{FlightPlan, Hazard, HazardSeverity, HazardType, Route, SimDrone, Waypoint},
+        model::{DroneId, RouteId, FlightPlan, Hazard, HazardSeverity, HazardType, Route, SimDrone, Waypoint},
     };
 
     fn drone_with_route() -> SimDrone {
         let route = Route::new(
-            "route-001",
+            "route-001".into(),
             vec![
-                Waypoint::new("wp-001", Point2::new(10.0, 0.0)),
-                Waypoint::new("wp-002", Point2::new(20.0, 0.0)),
+                Waypoint::new("wp-001".into(), Point2::new(10.0, 0.0)),
+                Waypoint::new("wp-002".into(), Point2::new(20.0, 0.0)),
             ],
         );
 
-        let flight_plan = FlightPlan::new("fp-001", "mission-001", route);
+        let flight_plan = FlightPlan::new("fp-001".into(), "mission-001".into(), route);
 
-        let mut drone = SimDrone::new("drone-001", Point2::new(0.0, 0.0), 10.0, 5.0);
+        let mut drone = SimDrone::new("drone-001".into(), Point2::new(0.0, 0.0), 10.0, 5.0);
 
         drone.assign_flight_plan(flight_plan);
         drone
@@ -249,16 +243,16 @@ mod tests {
     #[test]
     fn valid_to_blocked_transition_emits_route_blocked_once() {
         let route = Route::new(
-            "route-001",
+            "route-001".into(),
             vec![
-                Waypoint::new("wp-001", Point2::new(10.0, 0.0)),
-                Waypoint::new("wp-002", Point2::new(20.0, 0.0)),
+                Waypoint::new("wp-001".into(), Point2::new(10.0, 0.0)),
+                Waypoint::new("wp-002".into(), Point2::new(20.0, 0.0)),
             ],
         );
 
-        let flight_plan = FlightPlan::new("flight-plan-001", "mission-001", route);
+        let flight_plan = FlightPlan::new("flight-plan-001".into(), "mission-001".into(), route);
 
-        let mut drone = SimDrone::new("drone-001", Point2::new(0.0, 0.0), 10.0, 5.0);
+        let mut drone = SimDrone::new("drone-001".into(), Point2::new(0.0, 0.0), 10.0, 5.0);
 
         drone.assign_flight_plan(flight_plan);
 

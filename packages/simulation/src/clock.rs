@@ -1,19 +1,14 @@
 use std::time::Duration;
+use derive_new::new;
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, new)]
 pub struct Clock {
+    #[new(value = "0")]
     tick: u64,
     tick_duration: Duration,
 }
 
 impl Clock {
-    pub fn new(tick_duration: Duration) -> Self {
-        Self {
-            tick: 0,
-            tick_duration,
-        }
-    }
-
     pub fn tick(&self) -> u64 {
         self.tick
     }

@@ -1,17 +1,12 @@
 use crate::events::DomainEvent;
-use derive_new;
+use derive_new::new;
 
-
-#[derive(Debug, Default, Clone, PartialEq, Eq, derive_new::new)]
+#[derive(Debug, Default, Clone, PartialEq, Eq, new)]
 pub struct EventQueue {
     events: Vec<DomainEvent>,
 }
 
 impl EventQueue {
-    //pub fn new() -> Self {
-        //Self { events: Vec::new() }
-    //}
-
     pub fn push(&mut self, event: DomainEvent) {
         self.events.push(event);
     }

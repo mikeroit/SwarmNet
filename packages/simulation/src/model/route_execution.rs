@@ -1,22 +1,18 @@
+use derive_new::new;
+
 use crate::Route;
 use crate::Waypoint;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, new)]
 pub struct RouteExecution {
     route: Route,
+    #[new(value = "0")]
     current_waypoint_index: usize,
+    #[new(value = "false")]
     completed: bool,
 }
 
 impl RouteExecution {
-    pub fn new(route: Route) -> Self {
-        Self {
-            route,
-            current_waypoint_index: 0,
-            completed: false,
-        }
-    }
-
     pub fn current_waypoint(&self) -> Option<&Waypoint> {
         if self.completed {
             return None;

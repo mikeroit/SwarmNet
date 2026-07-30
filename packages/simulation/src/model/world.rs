@@ -1,4 +1,5 @@
 use std::time::Duration;
+use derive_new::new;
 
 use crate::events::{EventQueue, DomainEvent};
 use crate::model::{Hazard, SimDrone};
@@ -6,22 +7,15 @@ use crate::systems::{
     HazardDetectionSystem, RouteFollowingSystem, RoutePlanningSystem, RouteValidationSystem,
 };
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, new)]
 pub struct World {
     drones: Vec<SimDrone>,
+    #[new(value = "EventQueue::new(vec!())")]
     event_queue: EventQueue,
     hazards: Vec<Hazard>,
 }
 
 impl World {
-    pub fn new(drones: Vec<SimDrone>, hazards: Vec<Hazard>) -> Self {
-        Self {
-            drones,
-            event_queue: EventQueue::new(vec!()),
-            hazards,
-        }
-    }
-
     pub fn drones(&self) -> &[SimDrone] {
         &self.drones
     }

@@ -1,19 +1,13 @@
 use crate::{LineSegment, RouteId, Waypoint};
+use derive_new::new;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, new)]
 pub struct Route {
     id: RouteId,
     waypoints: Vec<Waypoint>,
 }
 
 impl Route {
-    pub fn new(id: impl Into<RouteId>, waypoints: Vec<Waypoint>) -> Self {
-        Self {
-            id: id.into(),
-            waypoints,
-        }
-    }
-
     pub fn id(&self) -> &RouteId {
         &self.id
     }

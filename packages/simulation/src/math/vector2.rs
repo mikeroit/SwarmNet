@@ -1,16 +1,13 @@
 use std::ops::{Add, Div, Mul, Neg, Sub};
+use derive_new::new;
 
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, new)]
 pub struct Vector2 {
     pub x: f64,
     pub y: f64,
 }
 
 impl Vector2 {
-    pub fn new(x: f64, y: f64) -> Self {
-        Self { x, y }
-    }
-
     pub fn length(&self) -> f64 {
         ((self.x * self.x) + (self.y * self.y)).sqrt()
     }

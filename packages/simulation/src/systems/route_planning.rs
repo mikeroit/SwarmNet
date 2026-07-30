@@ -31,7 +31,8 @@ impl RoutePlanningSystem {
             let mut planning_waypoints = Vec::with_capacity(remaining_waypoints.len() + 1);
 
             planning_waypoints.push(Waypoint::new(
-                format!("replan-start-{drone_id}"),
+                format!("replan-start-{drone_id}")
+                .into(),
                 drone_position,
             ));
 
