@@ -8,4 +8,3 @@ pub struct Waypoint {
     pub id: WaypointId,
     pub position: Point2,
 }
-

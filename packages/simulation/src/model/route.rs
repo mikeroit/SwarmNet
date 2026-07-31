@@ -23,4 +23,3 @@ impl Route {
         &self.waypoints
     }
 }
-

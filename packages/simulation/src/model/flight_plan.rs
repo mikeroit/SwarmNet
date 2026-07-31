@@ -44,15 +44,9 @@ mod tests {
             route.clone(),
         );
 
-        assert_eq!(
-            flight_plan.id(),
-            &FlightPlanId::from("flight-plan-001")
-        );
+        assert_eq!(flight_plan.id(), &FlightPlanId::from("flight-plan-001"));
 
-        assert_eq!(
-            flight_plan.mission_id(),
-            &MissionId::from("mission-001")
-        );
+        assert_eq!(flight_plan.mission_id(), &MissionId::from("mission-001"));
 
         assert_eq!(flight_plan.route(), &route);
     }

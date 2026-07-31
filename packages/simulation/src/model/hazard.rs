@@ -1,4 +1,3 @@
-
 use derive_new::new;
 
 use crate::math::Circle;
@@ -34,4 +33,3 @@ pub struct Hazard {
     pub severity: HazardSeverity,
     pub state: HazardState,
 }
-

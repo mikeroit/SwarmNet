@@ -18,9 +18,7 @@ impl RouteExecution {
             return None;
         }
 
-        self.route
-            .waypoints()
-            .get(self.current_waypoint_index)
+        self.route.waypoints().get(self.current_waypoint_index)
     }
 
     pub fn advance_waypoint(&mut self) {

@@ -3,7 +3,7 @@ use derive_new::new;
 use crate::{
     events::DomainEvent,
     math::LineSegment,
-    model::{HazardId, HazardState, SimDrone, World, ValidationStatus},
+    model::{HazardId, HazardState, SimDrone, ValidationStatus, World},
 };
 
 #[derive(Debug, Clone, Default, PartialEq, Eq, new)]
@@ -159,7 +159,10 @@ mod tests {
     use super::*;
     use crate::{
         math::{Circle, Point2},
-        model::{DroneId, RouteId, FlightPlan, Hazard, HazardSeverity, HazardType, Route, SimDrone, Waypoint},
+        model::{
+            DroneId, FlightPlan, Hazard, HazardSeverity, HazardType, Route, RouteId, SimDrone,
+            Waypoint,
+        },
     };
 
     fn drone_with_route() -> SimDrone {

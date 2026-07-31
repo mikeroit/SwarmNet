@@ -82,14 +82,12 @@ impl RoutePlanner {
                 hazard.footprint.center + direction * clearance + normal * clearance;
 
             result.push(Waypoint::new(
-                format!("replan-{}-before", hazard.id)
-                .into(),
+                format!("replan-{}-before", hazard.id).into(),
                 before_position,
             ));
 
             result.push(Waypoint::new(
-                format!("replan-{}-after", hazard.id)
-                .into(),
+                format!("replan-{}-after", hazard.id).into(),
                 after_position,
             ));
         }
@@ -134,7 +132,8 @@ mod tests {
 
     #[test]
     fn replanned_route_from_current_drone_position_avoids_scenario_hazard() {
-        let current_position = Waypoint::new("replan-start-drone-001".into(), Point2::new(0.8, 0.0));
+        let current_position =
+            Waypoint::new("replan-start-drone-001".into(), Point2::new(0.8, 0.0));
 
         let destination = Waypoint::new("wp-002".into(), Point2::new(10.0, 10.0));
 

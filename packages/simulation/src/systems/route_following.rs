@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use crate::{ExecutionStatus, DomainEvent, World};
+use crate::{DomainEvent, ExecutionStatus, World};
 
 pub struct RouteFollowingSystem;
 
@@ -18,15 +18,10 @@ impl RouteFollowingSystem {
             let Some((waypoint_id, target_position)) = flight_plan_execution
                 .route_execution()
                 .current_waypoint()
-                .map(|waypoint| {
-                    (
-                        waypoint.id.clone(),
-                        waypoint.position,
-                    )
-                })
-                else {
-                    continue;
-                };
+                .map(|waypoint| (waypoint.id.clone(), waypoint.position))
+            else {
+                continue;
+            };
 
             if flight_plan_execution.execution_status() == ExecutionStatus::Pending {
                 flight_plan_execution.start_execution();
@@ -52,7 +47,9 @@ impl RouteFollowingSystem {
 
                 drone.position = target_position;
 
-                flight_plan_execution.route_execution_mut().advance_waypoint();
+                flight_plan_execution
+                    .route_execution_mut()
+                    .advance_waypoint();
 
                 if flight_plan_execution.route_execution().is_complete() {
                     events.push(DomainEvent::RouteCompleted {

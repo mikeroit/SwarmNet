@@ -1,5 +1,5 @@
-use std::ops::{Add, Div, Mul, Neg, Sub};
 use derive_new::new;
+use std::ops::{Add, Div, Mul, Neg, Sub};
 
 #[derive(Debug, Clone, Copy, PartialEq, new)]
 pub struct Vector2 {

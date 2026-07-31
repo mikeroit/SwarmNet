@@ -1,5 +1,5 @@
-use std::time::Duration;
 use derive_new::new;
+use std::time::Duration;
 
 #[derive(Debug, Clone, PartialEq, Eq, new)]
 pub struct Clock {

@@ -1,5 +1,5 @@
-use std::ops::{Add, Sub};
 use derive_new::new;
+use std::ops::{Add, Sub};
 
 use crate::math::Vector2;
 

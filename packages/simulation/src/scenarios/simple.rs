@@ -1,7 +1,7 @@
 use crate::FlightPlan;
 use crate::math::{Circle, Point2};
 use crate::model::{Hazard, HazardSeverity, HazardState, HazardType};
-use crate::model::{Route, SimDrone, World, Waypoint};
+use crate::model::{Route, SimDrone, Waypoint, World};
 
 pub struct SimpleScenario;
 pub struct MultiDroneScenario;
