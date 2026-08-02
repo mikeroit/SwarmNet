@@ -100,13 +100,13 @@ impl RouteValidationSystem {
         // Validate the segment the drone is currently traversing.
         segments.push(LineSegment {
             start: drone.position,
-            end: current_waypoint.position,
+            end: current_waypoint.position(),
         });
 
         // Validate every later segment in the remaining route.
         segments.extend(remaining_waypoints.windows(2).map(|waypoints| LineSegment {
-            start: waypoints[0].position,
-            end: waypoints[1].position,
+            start: waypoints[0].position(),
+            end: waypoints[1].position(),
         }));
 
         segments

@@ -18,7 +18,7 @@ impl RouteFollowingSystem {
             let Some((waypoint_id, target_position)) = flight_plan_execution
                 .route_execution()
                 .current_waypoint()
-                .map(|waypoint| (waypoint.id.clone(), waypoint.position))
+                .map(|waypoint| (waypoint.id().clone(), waypoint.position()))
             else {
                 continue;
             };

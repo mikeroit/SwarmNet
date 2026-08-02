@@ -29,7 +29,7 @@ impl RoutePlanner {
     }
 
     pub fn plan_segment(start: &Waypoint, end: &Waypoint, hazards: &[&Hazard]) -> Vec<Waypoint> {
-        let direct_segment = LineSegment::new(start.position, end.position);
+        let direct_segment = LineSegment::new(start.position(), end.position());
 
         let mut blocking_hazards: Vec<&Hazard> = hazards
             .iter()
@@ -44,13 +44,13 @@ impl RoutePlanner {
         // Hash maps and scenario construction may not preserve a useful order.
         // Process hazards from nearest to farthest along the requested leg.
         blocking_hazards.sort_by(|left, right| {
-            let left_distance = start.position.distance_to(&left.footprint.center);
-            let right_distance = start.position.distance_to(&right.footprint.center);
+            let left_distance = start.position().distance_to(&left.footprint.center);
+            let right_distance = start.position().distance_to(&right.footprint.center);
 
             left_distance.total_cmp(&right_distance)
         });
 
-        let route_vector = end.position - start.position;
+        let route_vector = end.position() - start.position();
 
         if route_vector.length_squared() == 0.0 {
             return vec![start.clone()];
@@ -121,7 +121,7 @@ mod tests {
         assert!(planned.len() > 2);
 
         for pair in planned.windows(2) {
-            let segment = LineSegment::new(pair[0].position, pair[1].position);
+            let segment = LineSegment::new(pair[0].position(), pair[1].position());
 
             assert!(
                 !hazard.footprint.intersects_line_segment(&segment),
@@ -154,7 +154,7 @@ mod tests {
         );
 
         for pair in planned_route.waypoints().windows(2) {
-            let segment = LineSegment::new(pair[0].position, pair[1].position);
+            let segment = LineSegment::new(pair[0].position(), pair[1].position());
 
             assert!(
                 !hazard.footprint.intersects_line_segment(&segment),
@@ -162,8 +162,8 @@ mod tests {
                     "replanned segment still intersects hazard: ",
                     "{:?} -> {:?}"
                 ),
-                pair[0].position,
-                pair[1].position,
+                pair[0].position(),
+                pair[1].position(),
             );
         }
     }

@@ -5,6 +5,16 @@ use crate::model::WaypointId;
 
 #[derive(Debug, Clone, PartialEq, new)]
 pub struct Waypoint {
-    pub id: WaypointId,
-    pub position: Point2,
+    id: WaypointId,
+    position: Point2,
+}
+
+impl Waypoint {
+    pub fn id(&self) -> &WaypointId {
+        &self.id
+    }
+
+    pub fn position(&self) -> Point2 {
+        self.position
+    }
 }
