@@ -1,12 +1,10 @@
-use derive_new::new;
-
 use crate::{
     events::DomainEvent,
     math::LineSegment,
     model::{HazardId, HazardState, SimDrone, ValidationStatus, World},
 };
 
-#[derive(Debug, Clone, Default, PartialEq, Eq, new)]
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct RouteValidationResult {
     blocking_hazard_ids: Vec<HazardId>,
 }
@@ -22,6 +20,14 @@ impl RouteValidationResult {
 
     pub fn blocking_hazard_ids(&self) -> &[HazardId] {
         &self.blocking_hazard_ids
+    }
+}
+
+impl From<Vec<HazardId>> for RouteValidationResult {
+    fn from(blocking_hazard_ids: Vec<HazardId>) -> Self {
+        Self {
+            blocking_hazard_ids,
+        }
     }
 }
 
@@ -69,7 +75,7 @@ impl RouteValidationSystem {
         // deterministic. Sorting keeps validation results stable across runs.
         blocking_hazard_ids.sort_by(|left, right| left.as_str().cmp(right.as_str()));
 
-        RouteValidationResult::new(blocking_hazard_ids)
+        RouteValidationResult::from(blocking_hazard_ids)
     }
 
     fn remaining_route_segments(drone: &SimDrone) -> Vec<LineSegment> {

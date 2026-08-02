@@ -8,10 +8,6 @@ pub struct LocalHazardMap {
 }
 
 impl LocalHazardMap {
-    pub fn new() -> Self {
-        Self::default()
-    }
-
     pub fn contains(&self, hazard_id: &HazardId) -> bool {
         self.hazards.contains_key(hazard_id)
     }

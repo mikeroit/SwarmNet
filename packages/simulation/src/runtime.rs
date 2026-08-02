@@ -16,7 +16,7 @@ pub struct Runtime {
 impl Runtime {
     pub fn new(tick_duration: Duration, max_ticks: u64, world: World) -> Self {
         Self {
-            clock: Clock::new(tick_duration),
+            clock: Clock::from(tick_duration),
             state: State::Uninitialized,
             world,
             max_ticks,

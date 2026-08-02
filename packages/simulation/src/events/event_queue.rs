@@ -1,7 +1,6 @@
 use crate::events::DomainEvent;
-use derive_new::new;
 
-#[derive(Debug, Default, Clone, PartialEq, Eq, new)]
+#[derive(Debug, Default, Clone, PartialEq, Eq)]
 pub struct EventQueue {
     events: Vec<DomainEvent>,
 }

@@ -9,7 +9,7 @@ pub struct SimDrone {
     pub position: Point2,
     pub speed_mps: f64,
     pub sensor_range_meters: f64,
-    #[new(value = "LocalHazardMap::new()")]
+    #[new(default)]
     pub local_hazard_map: LocalHazardMap,
     #[new(value = "None")]
     pub flight_plan_execution: Option<FlightPlanExecution>,
@@ -17,6 +17,6 @@ pub struct SimDrone {
 
 impl SimDrone {
     pub fn assign_flight_plan(&mut self, flight_plan: FlightPlan) {
-        self.flight_plan_execution = Some(FlightPlanExecution::new(flight_plan));
+        self.flight_plan_execution = Some(FlightPlanExecution::from(flight_plan));
     }
 }

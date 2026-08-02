@@ -12,7 +12,7 @@ use crate::systems::{
 #[derive(Debug, Clone, PartialEq, new)]
 pub struct World {
     drones: Vec<SimDrone>,
-    #[new(value = "EventQueue::new(vec!())")]
+    #[new(default)]
     event_queue: EventQueue,
     hazards: Vec<Hazard>,
 }

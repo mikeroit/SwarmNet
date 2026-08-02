@@ -25,24 +25,12 @@ pub struct FlightPlanExecution {
 }
 
 impl FlightPlanExecution {
-    pub fn new(flight_plan: FlightPlan) -> Self {
-        let route = flight_plan.route().clone();
-
-        Self {
-            flight_plan,
-            route_execution: RouteExecution::new(route),
-            execution_status: ExecutionStatus::Pending,
-            validation_status: ValidationStatus::Valid,
-            replan_count: 0,
-        }
-    }
-
     pub fn flight_plan(&self) -> &FlightPlan {
         &self.flight_plan
     }
 
     pub fn replace_route(&mut self, new_route: Route) {
-        self.route_execution = RouteExecution::new(new_route);
+        self.route_execution = RouteExecution::from(new_route);
         self.validation_status = ValidationStatus::Valid;
     }
 
@@ -86,5 +74,19 @@ impl FlightPlanExecution {
 
     pub fn complete_execution(&mut self) {
         self.execution_status = ExecutionStatus::Completed;
+    }
+}
+
+impl From<FlightPlan> for FlightPlanExecution {
+    fn from(flight_plan: FlightPlan) -> Self {
+        let route = flight_plan.route().clone();
+
+        Self {
+            flight_plan,
+            route_execution: RouteExecution::from(route),
+            execution_status: ExecutionStatus::Pending,
+            validation_status: ValidationStatus::Valid,
+            replan_count: 0,
+        }
     }
 }

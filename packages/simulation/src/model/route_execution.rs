@@ -1,14 +1,10 @@
-use derive_new::new;
-
 use crate::Route;
 use crate::Waypoint;
 
-#[derive(Debug, Clone, PartialEq, new)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct RouteExecution {
     route: Route,
-    #[new(value = "0")]
     current_waypoint_index: usize,
-    #[new(value = "false")]
     completed: bool,
 }
 
@@ -39,5 +35,15 @@ impl RouteExecution {
 
     pub fn current_waypoint_index(&self) -> usize {
         self.current_waypoint_index
+    }
+}
+
+impl From<Route> for RouteExecution {
+    fn from(route: Route) -> Self {
+        Self {
+            route,
+            current_waypoint_index: 0,
+            completed: false,
+        }
     }
 }
