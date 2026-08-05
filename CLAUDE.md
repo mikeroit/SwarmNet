@@ -134,6 +134,6 @@ All domain IDs (`DroneId`, `RouteId`, `HazardId`, `WaypointId`, `FlightPlanId`, 
 
 ## Conventions worth knowing
 
-- `derive-new` (`#[derive(new)]`) is used to generate constructors where it reduces boilerplate — see `World::new` in `world.rs` for its `#[new(value = "...")]` field-default syntax.
+- `derive-new` (`#[derive(new)]`) is used to generate constructors where it reduces boilerplate — see `SimDrone::new` in `drone.rs` for its `#[new(value = "...")]` field-default syntax (`World::new` in `world.rs` uses the plain `#[new(default)]` form for the same purpose).
 - Domain objects have exactly one authoritative owner (documented per-concept in `docs/architecture/domain-model.md`); when adding a field, check which owner's module it actually belongs in rather than bolting it onto whichever struct is convenient.
 - Keep model/domain code independent of any specific transport — `HazardObservationTransport` is the pattern to follow (trait in `messaging/`, in-process impl for tests/sim, real impl added later without touching call sites).
