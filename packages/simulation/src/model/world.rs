@@ -3,7 +3,7 @@ use std::time::Duration;
 
 use crate::events::{DomainEvent, EventQueue};
 use crate::messaging::HazardObservationTransport;
-use crate::model::{Hazard, SimDrone};
+use crate::model::{Hazard, Mission, SimDrone};
 use crate::systems::{
     HazardDetectionSystem, HazardSharingSystem, RouteFollowingSystem, RoutePlanningSystem,
     RouteValidationSystem,
@@ -15,6 +15,7 @@ pub struct World {
     #[new(default)]
     event_queue: EventQueue,
     hazards: Vec<Hazard>,
+    missions: Vec<Mission>,
 }
 
 impl World {
@@ -36,6 +37,10 @@ impl World {
 
     pub fn hazards(&self) -> &[Hazard] {
         &self.hazards
+    }
+
+    pub fn missions(&self) -> &[Mission] {
+        &self.missions
     }
 
     pub fn hazards_mut(&mut self) -> &mut [Hazard] {
@@ -73,6 +78,6 @@ impl World {
 
 impl Default for World {
     fn default() -> Self {
-        Self::new(Vec::new(), Vec::new())
+        Self::new(Vec::new(), Vec::new(), Vec::new())
     }
 }

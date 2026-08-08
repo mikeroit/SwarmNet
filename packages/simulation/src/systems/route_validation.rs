@@ -277,7 +277,7 @@ mod tests {
         // authoritative hazards stored in World.
         assert!(drone.local_hazard_map.insert(hazard.clone()));
 
-        let mut world = World::new(vec![drone], vec![hazard]);
+        let mut world = World::new(vec![drone], vec![hazard], vec![]);
 
         RouteValidationSystem::step(&mut world);
 

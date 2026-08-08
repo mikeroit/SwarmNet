@@ -4,6 +4,7 @@ pub mod flight_plan_execution;
 pub mod hazard;
 pub mod ids;
 pub mod local_hazard_map;
+pub mod mission;
 pub mod route;
 pub mod route_execution;
 pub mod route_planner;
@@ -16,6 +17,7 @@ pub use flight_plan_execution::{ExecutionStatus, FlightPlanExecution, Validation
 pub use hazard::{Hazard, HazardSeverity, HazardState, HazardType};
 pub use ids::{DroneId, FlightPlanId, HazardId, MissionId, RouteId, WaypointId};
 pub use local_hazard_map::LocalHazardMap;
+pub use mission::{Mission, MissionAssignment};
 pub use route::Route;
 pub use route_execution::RouteExecution;
 pub use route_planner::RoutePlanner;
